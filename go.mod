@@ -1,6 +1,6 @@
 module github.com/defensestation/osquery
 
-go 1.23
+go 1.22.1
 
 require (
 	github.com/fatih/structs v1.1.0

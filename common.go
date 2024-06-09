@@ -1,6 +1,10 @@
-package esquery
+// Modified by DefenseStation on 2024-06-06
+// Changes: Updated ElasticSearch client to OpenSearch client, changed package name to 'osquery',
+// updated references to OpenSearch documentation, and modified examples accordingly.
 
-// Source represents the "_source" option which is commonly accepted in ES
+package osquery
+
+// Source represents the "_source" option which is commonly accepted in OS
 // queries. Currently, only the "includes" option is supported.
 type Source struct {
 	includes []string

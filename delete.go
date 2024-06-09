@@ -1,16 +1,20 @@
-package esquery
+// Modified by DefenseStation on 2024-06-06
+// Changes: Updated ElasticSearch client to OpenSearch client, changed package name to 'osquery',
+// updated references to OpenSearch documentation, and modified examples accordingly.
+
+package osquery
 
 import (
 	"bytes"
 	"encoding/json"
 
-	"github.com/elastic/go-elasticsearch/v7"
-	"github.com/elastic/go-elasticsearch/v7/esapi"
+	opensearch "github.com/opensearch-project/opensearch-go"
+	opensearchapi "github.com/opensearch-project/opensearch-go/opensearchapi"
 )
 
-// DeleteRequest represents a request to ElasticSearch's Delete By Query API,
+// DeleteRequest represents a request to OpenSearch's Delete By Query API,
 // described in
-// https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-delete-by-query.html
+// https://opensearch.org/docs/latest/search-plugins/sql/sql/delete/
 type DeleteRequest struct {
 	index []string
 	query Mappable
@@ -33,24 +37,24 @@ func (req *DeleteRequest) Query(q Mappable) *DeleteRequest {
 	return req
 }
 
-// Run executes the request using the provided ElasticSearch client.
+// Run executes the request using the provided OpenSearch client.
 func (req *DeleteRequest) Run(
-	api *elasticsearch.Client,
-	o ...func(*esapi.DeleteByQueryRequest),
-) (res *esapi.Response, err error) {
+	api *opensearch.Client,
+	o ...func(*opensearchapi.DeleteByQueryRequest),
+) (res *opensearchapi.Response, err error) {
 	return req.RunDelete(api.DeleteByQuery, o...)
 }
 
 // RunDelete is the same as the Run method, except that it accepts a value of
-// type esapi.DeleteByQuery (usually this is the DeleteByQuery field of an
-// elasticsearch.Client object). Since the ElasticSearch client does not provide
+// type opensearchapi.DeleteByQuery (usually this is the DeleteByQuery field of an
+// opensearch.Client object). Since the OpenSearch client does not provide
 // an interface type for its API (which would allow implementation of mock
-// clients), this provides a workaround. The Delete function in the ES client is
+// clients), this provides a workaround. The Delete function in the OS client is
 // actually a field of a function type.
 func (req *DeleteRequest) RunDelete(
-	del esapi.DeleteByQuery,
-	o ...func(*esapi.DeleteByQueryRequest),
-) (res *esapi.Response, err error) {
+	del opensearchapi.DeleteByQuery,
+	o ...func(*opensearchapi.DeleteByQueryRequest),
+) (res *opensearchapi.Response, err error) {
 	var b bytes.Buffer
 	err = json.NewEncoder(&b).Encode(map[string]interface{}{
 		"query": req.query.Map(),

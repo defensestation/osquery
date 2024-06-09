@@ -1,10 +1,14 @@
-package esquery
+// Modified by DefenseStation on 2024-06-06
+// Changes: Updated ElasticSearch client to OpenSearch client, changed package name to 'osquery',
+// updated references to OpenSearch documentation, and modified examples accordingly.
+
+package osquery
 
 import "github.com/fatih/structs"
 
 // MatchAllQuery represents a query of type "match_all" or "match_none", as
 // described in
-// https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-match-all-query.html
+// https://opensearch.org/docs/latest/query-dsl/match-all/
 type MatchAllQuery struct {
 	all    bool
 	params matchAllParams

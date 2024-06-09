@@ -1,7 +1,11 @@
-package esquery
+// Modified by DefenseStation on 2024-06-06
+// Changes: Updated ElasticSearch client to OpenSearch client, changed package name to 'osquery',
+// updated references to OpenSearch documentation, and modified examples accordingly.
+
+package osquery
 
 // BoostingQuery represents a compound query of type "boosting", as described in
-// https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-boosting-query.html
+// https://opensearch.org/docs/latest/query-dsl/compound/boosting/
 type BoostingQuery struct {
 	// Pos is the positive part of the query.
 	Pos Mappable

@@ -1,9 +1,13 @@
-package esquery
+// Modified by DefenseStation on 2024-06-06
+// Changes: Updated ElasticSearch client to OpenSearch client, changed package name to 'osquery',
+// updated references to OpenSearch documentation, and modified examples accordingly.
+
+package osquery
 
 import "github.com/fatih/structs"
 
 // DisMaxQuery represents a compound query of type "dis_max", as described in
-// https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-dis-max-query.html
+// https://opensearch.org/docs/1.3/query-dsl/compound/disjunction-max/
 type DisMaxQuery struct {
 	queries    []Mappable
 	tieBreaker float32

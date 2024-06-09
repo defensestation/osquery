@@ -1,8 +1,12 @@
-package esquery
+// Modified by DefenseStation on 2024-06-06
+// Changes: Updated ElasticSearch client to OpenSearch client, changed package name to 'osquery',
+// updated references to OpenSearch documentation, and modified examples accordingly.
+
+package osquery
 
 import (
-	"github.com/elastic/go-elasticsearch/v7"
-	"github.com/elastic/go-elasticsearch/v7/esapi"
+	opensearch "github.com/opensearch-project/opensearch-go"
+	opensearchapi "github.com/opensearch-project/opensearch-go/opensearchapi"
 )
 
 // CustomQueryMap represents an arbitrary query map for custom queries.
@@ -24,13 +28,13 @@ func (m *CustomQueryMap) Map() map[string]interface{} {
 	return map[string]interface{}(*m)
 }
 
-// Run executes the custom query using the provided ElasticSearch client. Zero
+// Run executes the custom query using the provided OpenSearch client. Zero
 // or more search options can be provided as well. It returns the standard
 // Response type of the official Go client.
 func (m *CustomQueryMap) Run(
-	api *elasticsearch.Client,
-	o ...func(*esapi.SearchRequest),
-) (res *esapi.Response, err error) {
+	api *opensearch.Client,
+	o ...func(*opensearchapi.SearchRequest),
+) (res *opensearchapi.Response, err error) {
 	return Search().Query(m).Run(api, o...)
 }
 

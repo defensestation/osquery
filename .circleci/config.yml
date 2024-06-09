@@ -1,0 +1,25 @@
+# This circleci config file will run tests 
+version: 2.1
+
+# jobs
+jobs:
+  #Run Test  
+  test:
+    docker:
+      - image: circleci/golang:latest
+    steps:
+      - checkout # check out source code to working directory
+
+      #Run Test
+      - run: 
+          name: "Run Test"
+          command: |
+            go test -v -race ./...
+  
+# work flows
+workflows:
+  version: 2
+  # build binary
+  build:
+    jobs:
+      - test

@@ -1,11 +1,15 @@
-package esquery
+// Modified by DefenseStation on 2024-06-06
+// Changes: Updated ElasticSearch client to OpenSearch client, changed package name to 'osquery',
+// updated references to OpenSearch documentation, and modified examples accordingly.
+
+package osquery
 
 import (
 	"github.com/fatih/structs"
 )
 
 // ExistsQuery represents a query of type "exists", as described in:
-// https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-exists-query.html
+// https://opensearch.org/docs/latest/query-dsl/term/exists/
 type ExistsQuery struct {
 	// Field is the name of the field to check for existence
 	Field string `structs:"field"`
@@ -27,7 +31,7 @@ func (q *ExistsQuery) Map() map[string]interface{} {
 //----------------------------------------------------------------------------//
 
 // IDsQuery represents a query of type "ids", as described in:
-// https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-ids-query.html
+// https://opensearch.org/docs/latest/query-dsl/term/ids/
 type IDsQuery struct {
 	// IDs is the "ids" component of the query
 	IDs struct {
@@ -52,7 +56,7 @@ func (q *IDsQuery) Map() map[string]interface{} {
 //----------------------------------------------------------------------------//
 
 // PrefixQuery represents query of type "prefix", as described in:
-// https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-prefix-query.html
+// https://opensearch.org/docs/latest/query-dsl/term/prefix/
 type PrefixQuery struct {
 	field  string
 	params prefixQueryParams
@@ -94,7 +98,7 @@ func (q *PrefixQuery) Map() map[string]interface{} {
 //----------------------------------------------------------------------------//
 
 // RangeQuery represents a query of type "range", as described in:
-// https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-range-query.html
+// https://opensearch.org/docs/latest/query-dsl/term/range/
 type RangeQuery struct {
 	field  string
 	params rangeQueryParams
@@ -193,7 +197,7 @@ const (
 )
 
 // String returns a string representation of the RangeRelation value, as
-// accepted by ElasticSearch
+// accepted by OpenSearch
 func (a RangeRelation) String() string {
 	switch a {
 	case RangeIntersects:
@@ -210,7 +214,7 @@ func (a RangeRelation) String() string {
 //----------------------------------------------------------------------------//
 
 // RegexpQuery represents a query of type "regexp", as described in:
-// https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-regexp-query.html
+// https://opensearch.org/docs/latest/query-dsl/term/regexp/
 type RegexpQuery struct {
 	field    string
 	wildcard bool
@@ -286,7 +290,7 @@ func (q *RegexpQuery) Map() map[string]interface{} {
 // using the provided regular expression value. Internally, wildcard queries
 // are simply specialized RegexpQuery values.
 // Wildcard queries are described in:
-// https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-wildcard-query.html
+// https://opensearch.org/docs/latest/query-dsl/term/wildcard/
 func Wildcard(field, value string) *RegexpQuery {
 	return &RegexpQuery{
 		field:    field,
@@ -300,7 +304,7 @@ func Wildcard(field, value string) *RegexpQuery {
 //----------------------------------------------------------------------------//
 
 // FuzzyQuery represents a query of type "fuzzy", as described in:
-// https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-fuzzy-query.html
+// https://opensearch.org/docs/latest/query-dsl/term/fuzzy/
 type FuzzyQuery struct {
 	field  string
 	params fuzzyQueryParams
@@ -377,7 +381,7 @@ func (q *FuzzyQuery) Map() map[string]interface{} {
 //----------------------------------------------------------------------------//
 
 // TermQuery represents a query of type "term", as described in:
-// https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-term-query.html
+// https://opensearch.org/docs/latest/query-dsl/term/term/
 type TermQuery struct {
 	field  string
 	params termQueryParams
@@ -424,7 +428,7 @@ func (q *TermQuery) Map() map[string]interface{} {
 //----------------------------------------------------------------------------//
 
 // TermsQuery represents a query of type "terms", as described in:
-// https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-terms-query.html
+// https://opensearch.org/docs/latest/query-dsl/term/terms/
 type TermsQuery struct {
 	field  string
 	values []interface{}
@@ -466,7 +470,7 @@ func (q TermsQuery) Map() map[string]interface{} {
 //----------------------------------------------------------------------------//
 
 // TermsSetQuery represents a query of type "terms_set", as described in:
-// https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-terms-set-query.html
+// https://opensearch.org/docs/latest/query-dsl/term/terms-set/
 type TermsSetQuery struct {
 	field  string
 	params termsSetQueryParams

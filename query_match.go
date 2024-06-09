@@ -1,4 +1,8 @@
-package esquery
+// Modified by DefenseStation on 2024-06-06
+// Changes: Updated ElasticSearch client to OpenSearch client, changed package name to 'osquery',
+// updated references to OpenSearch documentation, and modified examples accordingly.
+
+package osquery
 
 import (
 	"github.com/fatih/structs"
@@ -24,11 +28,11 @@ const (
 // "match_phrase" and "match_phrase_prefix". While all four share the same
 // general structure, they don't necessarily support all the same options. The
 // library does not attempt to verify provided options are supported.
-// See the ElasticSearch documentation for more information:
-// - https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-match-query.html
-// - https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-match-bool-prefix-query.html
-// - https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-match-query-phrase.html
-// - https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-match-query-phrase-prefix.html
+// See the OpenSearch documentation for more information:
+// - https://opensearch.org/docs/latest/query-dsl/full-text/match/
+// - https://opensearch.org/docs/latest/query-dsl/full-text/match-bool-prefix/
+// - https://opensearch.org/docs/latest/query-dsl/full-text/match-phrase/
+// - https://opensearch.org/docs/latest/query-dsl/full-text/match-phrase-prefix/
 type MatchQuery struct {
 	field  string
 	mType  matchType
@@ -215,7 +219,7 @@ const (
 )
 
 // String returns a string representation of the match operator, as known to
-// ElasticSearch.
+// OpenSearch.
 func (a MatchOperator) String() string {
 	switch a {
 	case OperatorOr:
@@ -240,7 +244,7 @@ const (
 )
 
 // String returns a string representation of the zero_terms_query parameter, as
-// known to ElasticSearch.
+// known to OpenSearch.
 func (a ZeroTerms) String() string {
 	switch a {
 	case ZeroTermsNone:

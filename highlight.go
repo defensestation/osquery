@@ -1,4 +1,8 @@
-package esquery
+// Modified by DefenseStation on 2024-06-06
+// Changes: Updated ElasticSearch client to OpenSearch client, changed package name to 'osquery',
+// updated references to OpenSearch documentation, and modified examples accordingly.
+
+package osquery
 
 import (
 	"github.com/fatih/structs"
@@ -214,7 +218,7 @@ const (
 )
 
 // String returns a string representation of the type parameter, as
-// known to ElasticSearch.
+// known to OpenSearch.
 func (a HighlightType) String() string {
 	switch a {
 	case HighlighterUnified:
@@ -243,7 +247,7 @@ const (
 )
 
 // String returns a string representation of the boundary_scanner parameter, as
-// known to ElasticSearch.
+// known to OpenSearch.
 func (a HighlightBoundaryScanner) String() string {
 	switch a {
 	case BoundaryScannerChars:
@@ -267,7 +271,7 @@ const (
 )
 
 // String returns a string representation of the encoder parameter, as
-// known to ElasticSearch.
+// known to OpenSearch.
 func (a HighlightEncoder) String() string {
 	switch a {
 	case EncoderDefault:
@@ -289,7 +293,7 @@ const (
 )
 
 // String returns a string representation of the fragmenter parameter, as
-// known to ElasticSearch.
+// known to OpenSearch.
 func (a HighlightFragmenter) String() string {
 	switch a {
 	case FragmenterSpan:
@@ -311,7 +315,7 @@ const (
 )
 
 // String returns a string representation of the order parameter, as
-// known to ElasticSearch.
+// known to OpenSearch.
 func (a HighlightOrder) String() string {
 	switch a {
 	case OrderNone:
@@ -331,7 +335,7 @@ const (
 )
 
 // String returns a string representation of the tags_schema parameter, as
-// known to ElasticSearch.
+// known to OpenSearch.
 func (a HighlightTagsSchema) String() string {
 	switch a {
 	case TagsSchemaStyled:

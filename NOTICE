@@ -1,0 +1,8 @@
+This product includes software developed at [Aquasecurity] (https://github.com/aquasecurity/esquery).
+
+Modifications made by [DefenseStation] on [June 08, 2024]:
+
+- Updated ElasticSearch client to OpenSearch client
+- Changed package name to 'osquery'
+- Updated references to OpenSearch documentation
+- Modified examples accordingly

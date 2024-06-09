@@ -1,10 +1,13 @@
-package esquery
+// Modified by DefenseStation on 2024-06-06
+// Changes: Updated ElasticSearch client to OpenSearch client, changed package name to 'osquery',
+// updated references to OpenSearch documentation, and modified examples accordingly.
+
+package osquery
 
 //----------------------------------------------------------------------------//
 
 // TermsAggregation represents an aggregation of type "terms", as described in
-// https://www.elastic.co/guide/en/elasticsearch/reference/current/
-//      search-aggregations-bucket-terms-aggregation.html
+// https://opensearch.org/docs/latest/aggregations/bucket/terms/
 type TermsAggregation struct {
 	name        string
 	field       string

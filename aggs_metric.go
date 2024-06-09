@@ -1,4 +1,8 @@
-package esquery
+// Modified by DefenseStation on 2024-06-06
+// Changes: Updated ElasticSearch client to OpenSearch client, changed package name to 'osquery',
+// updated references to OpenSearch documentation, and modified examples accordingly.
+
+package osquery
 
 import "github.com/fatih/structs"
 
@@ -44,8 +48,7 @@ func (agg *BaseAgg) Map() map[string]interface{} {
 }
 
 // AvgAgg represents an aggregation of type "avg", as described in
-// https://www.elastic.co/guide/en/elasticsearch/reference/
-//     current/search-aggregations-metrics-avg-aggregation.html
+// https://opensearch.org/docs/latest/aggregations/metric/average/
 type AvgAgg struct {
 	*BaseAgg `structs:",flatten"`
 }
@@ -68,8 +71,6 @@ func (agg *AvgAgg) Missing(val interface{}) *AvgAgg {
 //----------------------------------------------------------------------------//
 
 // WeightedAvgAgg represents an aggregation of type "weighted_avg", as described
-// in https://www.elastic.co/guide/en/elasticsearch/reference/
-//     current/search-aggregations-metrics-weight-avg-aggregation.html
 type WeightedAvgAgg struct {
 	name    string
 	apiName string
@@ -128,8 +129,7 @@ func (agg *WeightedAvgAgg) Map() map[string]interface{} {
 //----------------------------------------------------------------------------//
 
 // CardinalityAgg represents an aggregation of type "cardinality", as described
-// in https://www.elastic.co/guide/en/elasticsearch/reference/
-//     current/search-aggregations-metrics-cardinality-aggregation.html
+// in https://opensearch.org/docs/latest/aggregations/metric/cardinality/
 type CardinalityAgg struct {
 	*BaseAgg `structs:",flatten"`
 
@@ -169,8 +169,7 @@ func (agg *CardinalityAgg) Map() map[string]interface{} {
 //----------------------------------------------------------------------------//
 
 // MaxAgg represents an aggregation of type "max", as described in:
-// https://www.elastic.co/guide/en/elasticsearch/reference/
-//     current/search-aggregations-metrics-max-aggregation.html
+// https://opensearch.org/docs/latest/aggregations/metric/maximum/
 type MaxAgg struct {
 	*BaseAgg `structs:",flatten"`
 }
@@ -193,8 +192,7 @@ func (agg *MaxAgg) Missing(val interface{}) *MaxAgg {
 //----------------------------------------------------------------------------//
 
 // MinAgg represents an aggregation of type "min", as described in:
-// https://www.elastic.co/guide/en/elasticsearch/reference/
-//     current/search-aggregations-metrics-min-aggregation.html
+// https://opensearch.org/docs/latest/aggregations/metric/minimum/
 type MinAgg struct {
 	*BaseAgg `structs:",flatten"`
 }
@@ -217,8 +215,7 @@ func (agg *MinAgg) Missing(val interface{}) *MinAgg {
 //----------------------------------------------------------------------------//
 
 // SumAgg represents an aggregation of type "sum", as described in:
-// https://www.elastic.co/guide/en/elasticsearch/reference/
-//     current/search-aggregations-metrics-sum-aggregation.html
+// https://opensearch.org/docs/latest/aggregations/metric/sum/
 type SumAgg struct {
 	*BaseAgg `structs:",flatten"`
 }
@@ -241,8 +238,7 @@ func (agg *SumAgg) Missing(val interface{}) *SumAgg {
 //----------------------------------------------------------------------------//
 
 // ValueCountAgg represents an aggregation of type "value_count", as described
-// in https://www.elastic.co/guide/en/elasticsearch/reference/
-//     current/search-aggregations-metrics-valuecount-aggregation.html
+// in https://opensearch.org/docs/latest/aggregations/metric/value-count/
 type ValueCountAgg struct {
 	*BaseAgg `structs:",flatten"`
 }
@@ -258,8 +254,7 @@ func ValueCount(name, field string) *ValueCountAgg {
 //----------------------------------------------------------------------------//
 
 // PercentilesAgg represents an aggregation of type "percentiles", as described
-// in https://www.elastic.co/guide/en/elasticsearch/reference/
-//     current/search-aggregations-metrics-percentile-aggregation.html
+// in https://opensearch.org/docs/latest/aggregations/metric/percentile/
 type PercentilesAgg struct {
 	*BaseAgg `structs:",flatten"`
 
@@ -334,8 +329,7 @@ func (agg *PercentilesAgg) Map() map[string]interface{} {
 //----------------------------------------------------------------------------//
 
 // StatsAgg represents an aggregation of type "stats", as described in:
-// https://www.elastic.co/guide/en/elasticsearch/reference/
-//     current/search-aggregations-metrics-stats-aggregation.html
+// https://opensearch.org/docs/latest/aggregations/metric/stats/
 type StatsAgg struct {
 	*BaseAgg `structs:",flatten"`
 }
@@ -357,12 +351,11 @@ func (agg *StatsAgg) Missing(val interface{}) *StatsAgg {
 // ---------------------------------------------------------------------------//
 
 // StringStatsAgg represents an aggregation of type "string_stats", as described
-// in https://www.elastic.co/guide/en/elasticsearch/reference/
-//     current/search-aggregations-metrics-string-stats-aggregation.html
+// in https://opensearch.org/docs/latest/aggregations/metric/stats/
 type StringStatsAgg struct {
 	*BaseAgg `structs:",flatten"`
 
-	// ShowDist indicates whether to ask ElasticSearch to return a probability
+	// ShowDist indicates whether to ask OpenSearch to return a probability
 	// distribution for all characters
 	ShowDist *bool `structs:"show_distribution,omitempty"`
 }
@@ -399,8 +392,7 @@ func (agg *StringStatsAgg) Map() map[string]interface{} {
 // ---------------------------------------------------------------------------//
 
 // TopHitsAgg represents an aggregation of type "top_hits", as described
-// in https://www.elastic.co/guide/en/elasticsearch/reference/
-//     current/search-aggregations-metrics-top-hits-aggregation.html
+// in https://opensearch.org/docs/latest/aggregations/metric/top-hits/
 type TopHitsAgg struct {
 	name   string
 	from   uint64

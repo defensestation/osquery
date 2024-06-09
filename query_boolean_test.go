@@ -1,4 +1,8 @@
-package esquery
+// Modified by DefenseStation on 2024-06-06
+// Changes: Updated ElasticSearch client to OpenSearch client, changed package name to 'osquery',
+// updated references to OpenSearch documentation, and modified examples accordingly.
+
+package osquery
 
 import (
 	"testing"
@@ -49,7 +53,7 @@ func TestBool(t *testing.T) {
 				Must(Term("user", "kimchy")).
 				Filter(Term("tag", "tech")).
 				MustNot(Range("age").Gte(10).Lte(20)).
-				Should(Term("tag", "wow"), Term("tag", "elasticsearch")).
+				Should(Term("tag", "wow"), Term("tag", "opensearch")).
 				MinimumShouldMatch(1).
 				Boost(1.1),
 			map[string]interface{}{
@@ -93,7 +97,7 @@ func TestBool(t *testing.T) {
 						{
 							"term": map[string]interface{}{
 								"tag": map[string]interface{}{
-									"value": "elasticsearch",
+									"value": "opensearch",
 								},
 							},
 						},

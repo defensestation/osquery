@@ -19,18 +19,18 @@ import (
 // Not all features of the search API are currently supported, but a request can
 // currently include a query, aggregations, and more.
 type SearchRequest struct {
-	aggs        []Aggregation
-	explain     *bool
-	from        *uint64
-	highlight   Mappable
-	searchAfter []interface{}
-	postFilter  Mappable
-	query       Mappable
-	size        *uint64
-	sort        Sort
-	source      Source
-	timeout     *time.Duration
-
+	aggs         []Aggregation
+	explain      *bool
+	from         *uint64
+	highlight    Mappable
+	searchAfter  []interface{}
+	postFilter   Mappable
+	query        Mappable
+	size         *uint64
+	sort         Sort
+	source       Source
+	timeout      *time.Duration
+	scriptFields ScriptFields
 }
 
 // Search creates a new SearchRequest object, to be filled via method chaining.
@@ -117,7 +117,10 @@ func (req *SearchRequest) Highlight(highlight Mappable) *SearchRequest {
 	return req
 }
 
-
+func (req *SearchRequest) ScriptFields(fields ...*ScriptField) *SearchRequest {
+	req.scriptFields = fields
+	return req
+}
 
 // Map implements the Mappable interface. It converts the request to into a
 // nested map[string]interface{}, as expected by the opensearch-go library.
@@ -159,6 +162,9 @@ func (req *SearchRequest) Map() map[string]interface{} {
 		m["search_after"] = req.searchAfter
 	}
 
+	if req.scriptFields != nil {
+		m["script_fields"] = req.scriptFields.Map()
+	}
 
 	source := req.source.Map()
 	if len(source) > 0 {

@@ -61,7 +61,15 @@ func TestSearchMaps(t *testing.T) {
 				Sort("field_2", OrderAsc).
 				SourceIncludes("field_1", "field_2").
 				SourceExcludes("field_3").
-				Timeout(time.Duration(20000000000)),
+				Timeout(time.Duration(20000000000)).
+				ScriptFields(
+					Script("distance").
+						Source("doc['coordinates'].arcDistance(params.lat,params.lon)").
+						Params(ScriptParams{"lat": 48.8566, "lon": 2.3522}),
+					Script("duration").
+						ID("duration").
+						Lang("painless"),
+				),
 			map[string]interface{}{
 				"query": map[string]interface{}{
 					"bool": map[string]interface{}{
@@ -121,6 +129,23 @@ func TestSearchMaps(t *testing.T) {
 				"_source": map[string]interface{}{
 					"includes": []string{"field_1", "field_2"},
 					"excludes": []string{"field_3"},
+				},
+				"script_fields": map[string]interface{}{
+					"distance": map[string]interface{}{
+						"script": map[string]interface{}{
+							"source": "doc['coordinates'].arcDistance(params.lat,params.lon)",
+							"params": map[string]interface{}{
+								"lat": 48.8566,
+								"lon": 2.3522,
+							},
+						},
+					},
+					"duration": map[string]interface{}{
+						"script": map[string]interface{}{
+							"id":   "duration",
+							"lang": "painless",
+						},
+					},
 				},
 			},
 		},

@@ -1,17 +1,13 @@
 package osquery
 
-import (
-	"github.com/fatih/structs"
-)
-
 type ScriptParams map[string]interface{}
 
 type ScriptField struct {
 	name     string
-	Src      string       `structs:"source,omitempty"`
-	Param    ScriptParams `structs:"params,omitempty"`
-	Id       string       `structs:"id,omitempty"`
-	Language string       `structs:"lang,omitempty"`
+	Src      string
+	Param    ScriptParams
+	Id       string
+	Language string
 }
 
 func Script(name string) *ScriptField {
@@ -43,7 +39,20 @@ func (f *ScriptField) Name() string {
 }
 
 func (f *ScriptField) Map() map[string]interface{} {
+	result := make(map[string]interface{})
+	if f.Src != "" {
+		result["source"] = f.Src
+	}
+	if f.Param != nil {
+		result["params"] = f.Param
+	}
+	if f.Id != "" {
+		result["id"] = f.Id
+	}
+	if f.Language != "" {
+		result["lang"] = f.Language
+	}
 	return map[string]interface{}{
-		"script": structs.Map(f),
+		"script": result,
 	}
 }

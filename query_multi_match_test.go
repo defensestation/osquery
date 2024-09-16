@@ -32,7 +32,7 @@ func TestMultiMatch(t *testing.T) {
 				PrefixLength(12).
 				TieBreaker(0.3).
 				Boost(6.4).
-				Transpositions(true).
+				FuzzyTranspositions(true).
 				FuzzyRewrite("scoring_boolean").
 				Lenient(true).
 				Operator(OperatorAnd).
@@ -51,7 +51,7 @@ func TestMultiMatch(t *testing.T) {
 					"max_expansions":                      16,
 					"minimum_should_match":                "3<90%",
 					"prefix_length":                       12,
-					"transpositions":                      true,
+					"fuzzy_transpositions":                true,
 					"type":                                "phrase",
 					"tie_breaker":                         0.3,
 					"operator":                            "AND",

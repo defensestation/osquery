@@ -119,12 +119,13 @@ func TestTermLevel(t *testing.T) {
 		},
 		{
 			"term",
-			Term("user", "Kimchy").Boost(1.3),
+			Term("user", "Kimchy").Boost(1.3).CaseInsensitive(true),
 			map[string]interface{}{
 				"term": map[string]interface{}{
 					"user": map[string]interface{}{
-						"value": "Kimchy",
-						"boost": 1.3,
+						"value":            "Kimchy",
+						"boost":            1.3,
+						"case_insensitive": true,
 					},
 				},
 			},

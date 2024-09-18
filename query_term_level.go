@@ -388,8 +388,9 @@ type TermQuery struct {
 }
 
 type termQueryParams struct {
-	Value interface{} `structs:"value"`
-	Boost float32     `structs:"boost,omitempty"`
+	Value           interface{} `structs:"value"`
+	Boost           float32     `structs:"boost,omitempty"`
+	CaseInsensitive bool        `structs:"case_insensitive,omitempty"`
 }
 
 // Term creates a new query of type "term" on the provided field and using the
@@ -412,6 +413,12 @@ func (q *TermQuery) Value(val interface{}) *TermQuery {
 // Boost sets the boost value of the query.
 func (q *TermQuery) Boost(b float32) *TermQuery {
 	q.params.Boost = b
+	return q
+}
+
+// CaseInsensitive sets the query to be case insensitive.
+func (q *TermQuery) CaseInsensitive(c bool) *TermQuery {
+	q.params.CaseInsensitive = c
 	return q
 }
 

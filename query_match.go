@@ -62,19 +62,19 @@ func (q *MatchQuery) Map() map[string]interface{} {
 }
 
 type matchParams struct {
-	Qry          interface{}   `structs:"query"`
-	Anl          string        `structs:"analyzer,omitempty"`
-	AutoGenerate *bool         `structs:"auto_generate_synonyms_phrase_query,omitempty"`
-	Fuzz         string        `structs:"fuzziness,omitempty"`
-	MaxExp       uint16        `structs:"max_expansions,omitempty"`
-	PrefLen      uint16        `structs:"prefix_length,omitempty"`
-	Trans        *bool         `structs:"transpositions,omitempty"`
-	FuzzyRw      string        `structs:"fuzzy_rewrite,omitempty"`
-	Lent         bool          `structs:"lenient,omitempty"`
-	Op           MatchOperator `structs:"operator,string,omitempty"`
-	MinMatch     string        `structs:"minimum_should_match,omitempty"`
-	ZeroTerms    ZeroTerms     `structs:"zero_terms_query,string,omitempty"`
-	Slp          uint16        `structs:"slop,omitempty"` // only relevant for match_phrase query
+	Qry                 interface{}   `structs:"query"`
+	Anl                 string        `structs:"analyzer,omitempty"`
+	AutoGenerate        *bool         `structs:"auto_generate_synonyms_phrase_query,omitempty"`
+	Fuzz                string        `structs:"fuzziness,omitempty"`
+	MaxExp              uint16        `structs:"max_expansions,omitempty"`
+	PrefLen             uint16        `structs:"prefix_length,omitempty"`
+	FuzzyTranspositions *bool         `structs:"fuzzy_transpositions,omitempty"`
+	FuzzyRw             string        `structs:"fuzzy_rewrite,omitempty"`
+	Lent                bool          `structs:"lenient,omitempty"`
+	Op                  MatchOperator `structs:"operator,string,omitempty"`
+	MinMatch            string        `structs:"minimum_should_match,omitempty"`
+	ZeroTerms           ZeroTerms     `structs:"zero_terms_query,string,omitempty"`
+	Slp                 uint16        `structs:"slop,omitempty"` // only relevant for match_phrase query
 }
 
 // Match creates a new query of type "match" with the provided field name.
@@ -160,10 +160,10 @@ func (q *MatchQuery) PrefixLength(l uint16) *MatchQuery {
 	return q
 }
 
-// Transpositions sets whether edits for fuzzy matching include transpositions
+// FuzzyTranspositions sets whether edits for fuzzy matching include transpositions
 // of two adjacent characters.
-func (q *MatchQuery) Transpositions(b bool) *MatchQuery {
-	q.params.Trans = &b
+func (q *MatchQuery) FuzzyTranspositions(b bool) *MatchQuery {
+	q.params.FuzzyTranspositions = &b
 	return q
 }
 

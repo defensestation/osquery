@@ -21,23 +21,23 @@ func (q *MultiMatchQuery) Map() map[string]interface{} {
 }
 
 type multiMatchParams struct {
-	Qry          interface{}    `structs:"query"`
-	Fields       []string       `structs:"fields"`
-	Type         MultiMatchType `structs:"type,string,omitempty"`
-	TieBrk       float32        `structs:"tie_breaker,omitempty"`
-	Boost        float32        `structs:"boost,omitempty"`
-	Anl          string         `structs:"analyzer,omitempty"`
-	AutoGenerate *bool          `structs:"auto_generate_synonyms_phrase_query,omitempty"`
-	Fuzz         string         `structs:"fuzziness,omitempty"`
-	MaxExp       uint16         `structs:"max_expansions,omitempty"`
-	PrefLen      uint16         `structs:"prefix_length,omitempty"`
-	Trans        *bool          `structs:"transpositions,omitempty"`
-	FuzzyRw      string         `structs:"fuzzy_rewrite,omitempty"`
-	Lent         *bool          `structs:"lenient,omitempty"`
-	Op           MatchOperator  `structs:"operator,string,omitempty"`
-	MinMatch     string         `structs:"minimum_should_match,omitempty"`
-	ZeroTerms    ZeroTerms      `structs:"zero_terms_query,string,omitempty"`
-	Slp          uint16         `structs:"slop,omitempty"`
+	Qry                 interface{}    `structs:"query"`
+	Fields              []string       `structs:"fields"`
+	Type                MultiMatchType `structs:"type,string,omitempty"`
+	TieBrk              float32        `structs:"tie_breaker,omitempty"`
+	Boost               float32        `structs:"boost,omitempty"`
+	Anl                 string         `structs:"analyzer,omitempty"`
+	AutoGenerate        *bool          `structs:"auto_generate_synonyms_phrase_query,omitempty"`
+	Fuzz                string         `structs:"fuzziness,omitempty"`
+	MaxExp              uint16         `structs:"max_expansions,omitempty"`
+	PrefLen             uint16         `structs:"prefix_length,omitempty"`
+	FuzzyTranspositions *bool          `structs:"fuzzy_transpositions,omitempty"`
+	FuzzyRw             string         `structs:"fuzzy_rewrite,omitempty"`
+	Lent                *bool          `structs:"lenient,omitempty"`
+	Op                  MatchOperator  `structs:"operator,string,omitempty"`
+	MinMatch            string         `structs:"minimum_should_match,omitempty"`
+	ZeroTerms           ZeroTerms      `structs:"zero_terms_query,string,omitempty"`
+	Slp                 uint16         `structs:"slop,omitempty"`
 }
 
 // MultiMatch creates a new query of type "multi_match"
@@ -116,10 +116,10 @@ func (q *MultiMatchQuery) Boost(l float32) *MultiMatchQuery {
 	return q
 }
 
-// Transpositions sets whether edits for fuzzy matching include transpositions
+// FuzzyTranspositions sets whether edits for fuzzy matching include transpositions
 // of two adjacent characters.
-func (q *MultiMatchQuery) Transpositions(b bool) *MultiMatchQuery {
-	q.params.Trans = &b
+func (q *MultiMatchQuery) FuzzyTranspositions(b bool) *MultiMatchQuery {
+	q.params.FuzzyTranspositions = &b
 	return q
 }
 

@@ -5,8 +5,8 @@
 package osquery
 
 import (
-	opensearch "github.com/opensearch-project/opensearch-go"
-	opensearchapi "github.com/opensearch-project/opensearch-go/opensearchapi"
+	"github.com/opensearch-project/opensearch-go/v2"
+	"github.com/opensearch-project/opensearch-go/v2/opensearchapi"
 )
 
 // CustomQueryMap represents an arbitrary query map for custom queries.
@@ -16,7 +16,7 @@ type CustomQueryMap map[string]interface{}
 // provided by the user. It is useful for issuing a search request with a syntax
 // that is not yet supported by the library. CustomQuery values are versatile,
 // they can either be used as parameters for the library's Query function, or
-// standlone by invoking their Run method.
+// standalone by invoking their Run method.
 func CustomQuery(m map[string]interface{}) *CustomQueryMap {
 	q := CustomQueryMap(m)
 	return &q
@@ -25,7 +25,7 @@ func CustomQuery(m map[string]interface{}) *CustomQueryMap {
 // Map returns the custom query as a map[string]interface{}, thus implementing
 // the Mappable interface.
 func (m *CustomQueryMap) Map() map[string]interface{} {
-	return map[string]interface{}(*m)
+	return *m
 }
 
 // Run executes the custom query using the provided OpenSearch client. Zero

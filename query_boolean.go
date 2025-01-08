@@ -36,7 +36,7 @@ func (q *BoolQuery) Filter(filter ...Mappable) *BoolQuery {
 	return q
 }
 
-// Must adds one or more queries of type "must_not" to the bool query. MustNot
+// MustNot adds one or more queries of type "must_not" to the bool query. MustNot
 // can be called multiple times, queries will be appended to existing ones.
 func (q *BoolQuery) MustNot(mustnot ...Mappable) *BoolQuery {
 	q.mustNot = append(q.mustNot, mustnot...)

@@ -14,7 +14,7 @@ const (
 	// TypeMatch denotes a query of type "match"
 	TypeMatch matchType = iota
 
-	// TypeMatchBool denotes a query of type "match_bool_prefix"
+	// TypeMatchBoolPrefix TypeMatchBool denotes a query of type "match_bool_prefix"
 	TypeMatchBoolPrefix
 
 	// TypeMatchPhrase denotes a query of type "match_phrase"

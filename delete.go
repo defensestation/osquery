@@ -8,8 +8,8 @@ import (
 	"bytes"
 	"encoding/json"
 
-	opensearch "github.com/opensearch-project/opensearch-go"
-	opensearchapi "github.com/opensearch-project/opensearch-go/opensearchapi"
+	"github.com/opensearch-project/opensearch-go/v2"
+	"github.com/opensearch-project/opensearch-go/v2/opensearchapi"
 )
 
 // DeleteRequest represents a request to OpenSearch's Delete By Query API,

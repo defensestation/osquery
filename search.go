@@ -10,8 +10,8 @@ import (
 	"fmt"
 	"time"
 
-	opensearch "github.com/opensearch-project/opensearch-go"
-	opensearchapi "github.com/opensearch-project/opensearch-go/opensearchapi"
+	"github.com/opensearch-project/opensearch-go/v2"
+	"github.com/opensearch-project/opensearch-go/v2/opensearchapi"
 )
 
 // SearchRequest represents a request to OpenSearch's Search API, described

@@ -104,13 +104,13 @@ func (q *MultiMatchQuery) PrefixLength(l uint16) *MultiMatchQuery {
 	return q
 }
 
-// TieBreaker
+// TieBreaker sets the tie breaker value
 func (q *MultiMatchQuery) TieBreaker(l float32) *MultiMatchQuery {
 	q.params.TieBrk = l
 	return q
 }
 
-// Boost
+// Boost sets the boost value for the query.
 func (q *MultiMatchQuery) Boost(l float32) *MultiMatchQuery {
 	q.params.Boost = l
 	return q
@@ -168,27 +168,27 @@ func (q *MultiMatchQuery) ZeroTermsQuery(s ZeroTerms) *MultiMatchQuery {
 	return q
 }
 
-// MatchType is an enumeration type representing supported values for a
+// MultiMatchType is an enumeration type representing supported values for a
 // multi match query's "type" parameter.
 type MultiMatchType uint8
 
 const (
-	// TypeBestFields is the "best_fields" type
+	// MatchTypeBestFields is the "best_fields" type
 	MatchTypeBestFields MultiMatchType = iota
 
-	// TypeMostFields is the "most_fields" type
+	// MatchTypeMostFields is the "most_fields" type
 	MatchTypeMostFields
 
-	// TypeMostFields is the "cross_fields" type
+	// MatchTypeCrossFields is the "cross_fields" type
 	MatchTypeCrossFields
 
-	// TypeMostFields is the "phrase" type
+	// MatchTypePhrase is the "phrase" type
 	MatchTypePhrase
 
-	// TypeMostFields is the "phrase_prefix" type
+	// MatchTypePhrasePrefix is the "phrase_prefix" type
 	MatchTypePhrasePrefix
 
-	// TypeMostFields is the "bool_prefix" type
+	// MatchTypeBoolPrefix is the "bool_prefix" type
 	MatchTypeBoolPrefix
 )
 

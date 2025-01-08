@@ -64,7 +64,7 @@ import (
 	"log"
 
 	"github.com/defensestation/osquery"
-	"github.com/opensearch-project/opensearch-go"
+	"github.com/opensearch-project/opensearch-go/v2"
 )
 
 func main() {

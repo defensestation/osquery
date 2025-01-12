@@ -24,7 +24,7 @@ func (agg *NestedAggregation) Name() string {
 	return agg.name
 }
 
-// NumberOfFragments sets the aggregations path
+// Path sets the aggregations path
 func (agg *NestedAggregation) Path(p string) *NestedAggregation {
 	agg.path = p
 	return agg

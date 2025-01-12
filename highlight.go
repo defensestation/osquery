@@ -256,8 +256,9 @@ func (a HighlightBoundaryScanner) String() string {
 		return "sentence"
 	case BoundaryScannerWord:
 		return "word"
+	default:
+		return ""
 	}
-	return ""
 }
 
 type HighlightEncoder uint8
@@ -285,7 +286,7 @@ func (a HighlightEncoder) String() string {
 type HighlightFragmenter uint8
 
 const (
-	// FragmentSpan is the "span" value
+	// FragmenterSpan is the "span" value
 	FragmenterSpan HighlightFragmenter = iota
 
 	// FragmenterSimple is the "simple" value
@@ -300,8 +301,9 @@ func (a HighlightFragmenter) String() string {
 		return "span"
 	case FragmenterSimple:
 		return "simple"
+	default:
+		return ""
 	}
-	return ""
 }
 
 type HighlightOrder uint8
@@ -322,8 +324,9 @@ func (a HighlightOrder) String() string {
 		return "none"
 	case OrderScore:
 		return "score"
+	default:
+		return ""
 	}
-	return ""
 }
 
 type HighlightTagsSchema uint8
@@ -340,6 +343,7 @@ func (a HighlightTagsSchema) String() string {
 	switch a {
 	case TagsSchemaStyled:
 		return "styled"
+	default:
+		return ""
 	}
-	return ""
 }

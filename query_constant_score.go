@@ -14,7 +14,7 @@ type ConstantScoreQuery struct {
 	boost  float32
 }
 
-// ConstantScore creates a new query of type "contant_score" with the provided
+// ConstantScore creates a new query of type "constant_score" with the provided
 // filter query.
 func ConstantScore(filter Mappable) *ConstantScoreQuery {
 	return &ConstantScoreQuery{

@@ -10,7 +10,7 @@ type FilterAggregation struct {
 	aggs   []Aggregation
 }
 
-// Filter creates a new aggregation of type "filter". The method name includes
+// FilterAgg creates a new aggregation of type "filter". The method name includes
 // the "Agg" suffix to prevent conflict with the "filter" query.
 func FilterAgg(name string, filter Mappable) *FilterAggregation {
 	return &FilterAggregation{

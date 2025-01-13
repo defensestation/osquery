@@ -4,7 +4,7 @@
 
 // package osquery provides a non-obtrusive, idiomatic and easy-to-use query
 // and aggregation builder for the official Go client
-// (https://github.com/opensearch-project/opensearch-go) for the OpenSearch
+// (https://github.com/opensearch-project/opensearch-go/v4) for the OpenSearch
 // database (https://opensearch.org/).
 //
 // osquery alleviates the need to use extremely nested maps
@@ -37,7 +37,7 @@
 //         "log"
 //
 //         "github.com/defensestatuib/osquery"
-//         opensearch "github.com/opensearch-project/opensearch-go"
+//         opensearch "github.com/opensearch-project/opensearch-go/v4"
 //     )
 //
 //     func main() {

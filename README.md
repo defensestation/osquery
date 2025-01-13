@@ -15,7 +15,7 @@ This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENS
 
  
 
-**OpenSeach Query Builder for Go. A non-obtrusive, idiomatic and easy-to-use query and aggregation builder for the [official Go client](https://github.com/opensearch-project/opensearch-go) for [OpenSearch](https://opensearch.org/docs/latest/clients/go/).**
+**OpenSeach Query Builder for Go. A non-obtrusive, idiomatic and easy-to-use query and aggregation builder for the [official Go client](https://github.com/opensearch-project/opensearch-go/v4) for [OpenSearch](https://opensearch.org/docs/latest/clients/go/).**
 
 ## Table of Contents
 
@@ -64,7 +64,7 @@ import (
 	"log"
 
 	"github.com/defensestation/osquery"
-	"github.com/opensearch-project/opensearch-go"
+	"github.com/opensearch-project/opensearch-go/v4"
 )
 
 func main() {

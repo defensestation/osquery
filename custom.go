@@ -5,8 +5,8 @@
 package osquery
 
 import (
-	opensearch "github.com/opensearch-project/opensearch-go"
-	opensearchapi "github.com/opensearch-project/opensearch-go/opensearchapi"
+	opensearch "github.com/opensearch-project/opensearch-go/v4"
+	opensearchapi "github.com/opensearch-project/opensearch-go/v4/opensearchapi"
 )
 
 // CustomQueryMap represents an arbitrary query map for custom queries.
@@ -33,8 +33,8 @@ func (m *CustomQueryMap) Map() map[string]interface{} {
 // Response type of the official Go client.
 func (m *CustomQueryMap) Run(
 	api *opensearch.Client,
-	o ...func(*opensearchapi.SearchRequest),
-) (res *opensearchapi.Response, err error) {
+	o ...func(*opensearchapi.SearchReq),
+) (res *opensearchapi.SearchResp, err error) {
 	return Search().Query(m).Run(api, o...)
 }
 

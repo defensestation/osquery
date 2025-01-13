@@ -5,6 +5,7 @@
 package osquery
 
 import (
+	"context"
 	"bytes"
 	"encoding/json"
 	"fmt"
@@ -40,44 +41,30 @@ func (req *DeleteRequest) Query(q Mappable) *DeleteRequest {
 
 // Run executes the request using the provided OpenSearch client.
 func (req *DeleteRequest) Run(
-	api *opensearch.Client,
-	o ...func(*opensearchapi.DocumentDeleteByQueryReq),
+	ctx context.Context,
+	client *opensearch.Client,
+	options *Options,
 ) (*opensearchapi.DocumentDeleteByQueryResp, error) {
-	var b bytes.Buffer
-	// Convert the DeleteReq to a JSON-encoded body
-	if err := json.NewEncoder(&b).Encode(req.query.Map()); err != nil {
+	// Serialize the request body to JSON
+	body, err := json.Marshal(req.query.Map())
+	if err != nil {
 		return nil, fmt.Errorf("failed to serialize request body: %w", err)
 	}
 
 	// Create a DeleteReq with the request body
 	deleteReq := opensearchapi.DocumentDeleteByQueryReq{
-		Body:    &b,                           // Pass the encoded request body
-		Header:  nil,                          // Optional headers (you can set them if needed)
-		Params: opensearchapi.DocumentDeleteByQueryParams{},   // Optional search parameters
+		Body:    bytes.NewReader(body),                           // Pass the encoded request body
 	}
 
 	// Apply any additional options to modify the DeleteReq, such as context or index
-	for _, option := range o {
-		option(&deleteReq)
-	}
+	ApplyOptions(deleteReq, options)
 
-	// Get the HTTP request from the DeleteReq object
-	httpRequest, err := deleteReq.GetRequest()
-	if err != nil {
-		return nil, fmt.Errorf("failed to get HTTP request: %w", err)
-	}
-
-	// Perform the search request using the `Perform` method
-	res, err := api.Perform(httpRequest)
-	if err != nil {
-		return nil, fmt.Errorf("search request failed: %w", err)
-	}
-
-	// Parse the response into the DocumentDeleteByQueryResp struct
 	var deleteResp opensearchapi.DocumentDeleteByQueryResp
-	if err := json.NewDecoder(res.Body).Decode(&deleteResp); err != nil {
-		return nil, fmt.Errorf("failed to parse delete response: %w", err)
-	}
+
+	// Execute the delete request using the OpenSearch client's Do method
+    if _, err := client.Do(ctx, deleteReq, &deleteResp); err != nil {
+        return nil, fmt.Errorf("delete request failed: %w", err)
+    }
 
 	return &deleteResp, nil
 }

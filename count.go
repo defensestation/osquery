@@ -5,6 +5,7 @@
 package osquery
 
 import (
+	"context"
 	"bytes"
 	"encoding/json"
 	"fmt"
@@ -38,8 +39,9 @@ func (req *CountRequest) Map() map[string]interface{} {
 // Run executes the request using the provided OpenSearch client. It returns
 // the HTTP response directly for further processing.
 func (req *CountRequest) Run(
-	client *opensearch.Client,
-o ...func(*opensearchapi.SearchReq),
+	ctx context.Context,
+    client *opensearch.Client,
+    options *Options,
 ) (*opensearchapi.SearchResp, error) {
 	// Serialize the request body to JSON
 	body, err := json.Marshal(req.Map())
@@ -52,28 +54,17 @@ o ...func(*opensearchapi.SearchReq),
 		Body: bytes.NewReader(body),
 	}
 
-	// Apply any additional options to modify the SearchReq, such as context or index
-	for _, option := range o {
-		option(&searchReq)
-	}
+	// Apply additional options if provided
+    ApplyOptions(searchReq, options)
 
-	// Get the HTTP request from the SearchReq object
-	httpRequest, err := searchReq.GetRequest()
-	if err != nil {
-		return nil, fmt.Errorf("failed to get HTTP request: %w", err)
-	}
+    // Create a variable to hold the response
+    var searchResp opensearchapi.SearchResp
 
-	// Perform the search request (this will give you the count of matched documents)
-	res, err := client.Perform(httpRequest)
-	if err != nil {
-		return nil, fmt.Errorf("failed to execute search request: %w", err)
-	}
+    // Execute the search request using the OpenSearch client's Do method
+    if _, err := client.Do(ctx, searchReq, &searchResp); err != nil {
+        return nil, fmt.Errorf("search request failed: %w", err)
+    }
 
-	// Parse the response into the SearchResp struct
-	var searchResp opensearchapi.SearchResp
-	if err := json.NewDecoder(res.Body).Decode(&searchResp); err != nil {
-		return nil, fmt.Errorf("failed to parse search response: %w", err)
-	}
-
-	return &searchResp, nil
+    // Return the parsed response
+    return &searchResp, nil
 }

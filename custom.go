@@ -5,6 +5,7 @@
 package osquery
 
 import (
+	context "context"
 	opensearch "github.com/opensearch-project/opensearch-go/v4"
 	opensearchapi "github.com/opensearch-project/opensearch-go/v4/opensearchapi"
 )
@@ -32,10 +33,11 @@ func (m *CustomQueryMap) Map() map[string]interface{} {
 // or more search options can be provided as well. It returns the standard
 // Response type of the official Go client.
 func (m *CustomQueryMap) Run(
+	ctx context.Context,
 	api *opensearch.Client,
-	o ...func(*opensearchapi.SearchReq),
+	options *Options,
 ) (res *opensearchapi.SearchResp, err error) {
-	return Search().Query(m).Run(api, o...)
+	return Search().Query(m).Run(ctx, api, options)
 }
 
 //----------------------------------------------------------------------------//

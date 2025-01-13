@@ -2,6 +2,7 @@ package osquery
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
 	"time"
@@ -173,48 +174,36 @@ func (req *SearchRequest) MarshalJSON() ([]byte, error) {
 	return json.Marshal(req.Map())
 }
 
-// Run executes the search using the OpenSearch client, allowing for additional options like context or index.
+// Run executes the search using the OpenSearch client, applying additional options.
 func (req *SearchRequest) Run(
-	api *opensearch.Client,
-	o ...func(*opensearchapi.SearchReq),
+    ctx context.Context,
+    client *opensearch.Client,
+    options *Options,
 ) (*opensearchapi.SearchResp, error) {
-	var b bytes.Buffer
-	// Convert the SearchRequest to a JSON-encoded body
-	if err := json.NewEncoder(&b).Encode(req.Map()); err != nil {
+    // Serialize the request body to JSON
+	body, err := json.Marshal(req.query.Map())
+	if err != nil {
 		return nil, fmt.Errorf("failed to serialize request body: %w", err)
 	}
 
-	// Create a SearchReq with the request body
+	// Create a Search request, setting size to 0 to avoid fetching documents
 	searchReq := opensearchapi.SearchReq{
-		Body:    &b,                           // Pass the encoded request body
-		Header:  nil,                          // Optional headers (you can set them if needed)
-		Params: opensearchapi.SearchParams{},   // Optional search parameters
+		Body: bytes.NewReader(body),
 	}
 
-	// Apply any additional options to modify the SearchReq, such as context or index
-	for _, option := range o {
-		option(&searchReq)
-	}
+    // Apply additional options if provided
+    ApplyOptions(searchReq, options)
 
-	// Get the HTTP request from the SearchReq object
-	httpRequest, err := searchReq.GetRequest()
-	if err != nil {
-		return nil, fmt.Errorf("failed to get HTTP request: %w", err)
-	}
+    // Create a variable to hold the response
+    var searchResp opensearchapi.SearchResp
 
-	// Perform the search request using the `Perform` method
-	res, err := api.Perform(httpRequest)
-	if err != nil {
-		return nil, fmt.Errorf("search request failed: %w", err)
-	}
+    // Execute the search request using the OpenSearch client's Do method
+    if _, err := client.Do(ctx, searchReq, &searchResp); err != nil {
+        return nil, fmt.Errorf("search request failed: %w", err)
+    }
 
-	// Parse the response into the SearchResp struct
-	var searchResp opensearchapi.SearchResp
-	if err := json.NewDecoder(res.Body).Decode(&searchResp); err != nil {
-		return nil, fmt.Errorf("failed to parse search response: %w", err)
-	}
-
-	return &searchResp, nil
+    // Return the parsed response
+    return &searchResp, nil
 }
 
 // Query is a shortcut for creating a SearchRequest with only a query. It is

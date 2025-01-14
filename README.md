@@ -15,7 +15,7 @@ This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENS
 
  
 
-**OpenSeach Query Builder for Go. A non-obtrusive, idiomatic and easy-to-use query and aggregation builder for the [official Go client](https://github.com/opensearch-project/opensearch-go) for [OpenSearch](https://opensearch.org/docs/latest/clients/go/).**
+**OpenSeach Query Builder for Go. A non-obtrusive, idiomatic and easy-to-use query and aggregation builder for the [official Go client](https://github.com/opensearch-project/opensearch-go/v4) for [OpenSearch](https://opensearch.org/docs/latest/clients/go/).**
 
 ## Table of Contents
 
@@ -64,7 +64,7 @@ import (
 	"log"
 
 	"github.com/defensestation/osquery"
-	"github.com/opensearch-project/opensearch-go"
+	"github.com/opensearch-project/opensearch-go/v4"
 )
 
 func main() {
@@ -88,9 +88,11 @@ func main() {
         ).
         Size(20).
         Run(
+            context.TODO(),
             osclient,
-            osclient.Search.WithContext(context.TODO()),
-            osclient.Search.WithIndex("test"),
+            &osquery.Options{
+                Indices: []string{"test"},
+            },
         )
         if err != nil {
             log.Fatalf("Failed searching for stuff: %s", err)
@@ -103,6 +105,10 @@ func main() {
 ```
 
 ## Notes
+
+#### Major Breaking Change Update in osquery v2.0.0
+
+To support ```github.com/opensearch-project/opensearch-go/v4```, in the osquery version 2, the ```Run``` method has been changed. It takes ```context```, ```client```, and ```osquery.Options{}```, as arguments. 
 
 * `osquery` currently supports version 7 of the OpenSearch Go client.
 * The library cannot currently generate "short queries". For example, whereas

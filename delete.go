@@ -5,11 +5,13 @@
 package osquery
 
 import (
+	"context"
 	"bytes"
 	"encoding/json"
+	"fmt"
 
-	opensearch "github.com/opensearch-project/opensearch-go"
-	opensearchapi "github.com/opensearch-project/opensearch-go/opensearchapi"
+	opensearch "github.com/opensearch-project/opensearch-go/v4"
+	opensearchapi "github.com/opensearch-project/opensearch-go/v4/opensearchapi"
 )
 
 // DeleteRequest represents a request to OpenSearch's Delete By Query API,
@@ -39,29 +41,30 @@ func (req *DeleteRequest) Query(q Mappable) *DeleteRequest {
 
 // Run executes the request using the provided OpenSearch client.
 func (req *DeleteRequest) Run(
-	api *opensearch.Client,
-	o ...func(*opensearchapi.DeleteByQueryRequest),
-) (res *opensearchapi.Response, err error) {
-	return req.RunDelete(api.DeleteByQuery, o...)
-}
-
-// RunDelete is the same as the Run method, except that it accepts a value of
-// type opensearchapi.DeleteByQuery (usually this is the DeleteByQuery field of an
-// opensearch.Client object). Since the OpenSearch client does not provide
-// an interface type for its API (which would allow implementation of mock
-// clients), this provides a workaround. The Delete function in the OS client is
-// actually a field of a function type.
-func (req *DeleteRequest) RunDelete(
-	del opensearchapi.DeleteByQuery,
-	o ...func(*opensearchapi.DeleteByQueryRequest),
-) (res *opensearchapi.Response, err error) {
-	var b bytes.Buffer
-	err = json.NewEncoder(&b).Encode(map[string]interface{}{
-		"query": req.query.Map(),
-	})
+	ctx context.Context,
+	client *opensearch.Client,
+	options *Options,
+) (*opensearchapi.DocumentDeleteByQueryResp, error) {
+	// Serialize the request body to JSON
+	body, err := json.Marshal(req.query.Map())
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to serialize request body: %w", err)
 	}
 
-	return del(req.index, &b, o...)
+	// Create a DeleteReq with the request body
+	deleteReq := opensearchapi.DocumentDeleteByQueryReq{
+		Body:    bytes.NewReader(body),                           // Pass the encoded request body
+	}
+
+	// Apply any additional options to modify the DeleteReq, such as context or index
+	ApplyOptions(&deleteReq, options)
+
+	var deleteResp opensearchapi.DocumentDeleteByQueryResp
+
+	// Execute the delete request using the OpenSearch client's Do method
+    if _, err := client.Do(ctx, deleteReq, &deleteResp); err != nil {
+        return nil, fmt.Errorf("delete request failed: %w", err)
+    }
+
+	return &deleteResp, nil
 }

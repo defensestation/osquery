@@ -126,7 +126,7 @@ func (a *RangeQuery) Gt(val interface{}) *RangeQuery {
 	return a
 }
 
-// Gt sets that the value of field must be greater than or equal to the provided
+// Gte sets that the value of field must be greater than or equal to the provided
 // value
 func (a *RangeQuery) Gte(val interface{}) *RangeQuery {
 	a.params.Gte = val
@@ -416,7 +416,7 @@ func (q *TermQuery) Boost(b float32) *TermQuery {
 	return q
 }
 
-// CaseInsensitive sets the query to be case insensitive.
+// CaseInsensitive sets the query to be case-insensitive.
 func (q *TermQuery) CaseInsensitive(c bool) *TermQuery {
 	q.params.CaseInsensitive = c
 	return q

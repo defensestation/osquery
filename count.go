@@ -5,24 +5,26 @@
 package osquery
 
 import (
+	"context"
 	"bytes"
 	"encoding/json"
+	"fmt"
 
-	opensearch "github.com/opensearch-project/opensearch-go"
-	opensearchapi "github.com/opensearch-project/opensearch-go/opensearchapi"
+	opensearch "github.com/opensearch-project/opensearch-go/v4"
+	opensearchapi "github.com/opensearch-project/opensearch-go/v4/opensearchapi"
 )
 
 // CountRequest represents a request to get the number of matches for a search
 // query, as described in:
 // https://opensearch.org/docs/latest/api-reference/count/
 type CountRequest struct {
-	query Mappable
+	Query Mappable
 }
 
 // Count creates a new count request with the provided query.
 func Count(q Mappable) *CountRequest {
 	return &CountRequest{
-		query: q,
+		Query: q,
 	}
 }
 
@@ -30,37 +32,39 @@ func Count(q Mappable) *CountRequest {
 // Mappable interface.
 func (req *CountRequest) Map() map[string]interface{} {
 	return map[string]interface{}{
-		"query": req.query.Map(),
+		"query": req.Query.Map(),
 	}
 }
 
-// Run executes the request using the provided Count client. Zero or
-// more search options can be provided as well. It returns the standard Response
-// type of the official Go client.
+// Run executes the request using the provided OpenSearch client. It returns
+// the HTTP response directly for further processing.
 func (req *CountRequest) Run(
-	api *opensearch.Client,
-	o ...func(*opensearchapi.CountRequest),
-) (res *opensearchapi.Response, err error) {
-	return req.RunCount(api.Count, o...)
-}
-
-// RunCount is the same as the Run method, except that it accepts a value of
-// type opensearchapi.Count (usually this is the Count field of an opensearch.Client
-// object). Since the OpenCount client does not provide an interface type
-// for its API (which would allow implementation of mock clients), this provides
-// a workaround. The Count function in the OS client is actually a field of a
-// function type.
-func (req *CountRequest) RunCount(
-	count opensearchapi.Count,
-	o ...func(*opensearchapi.CountRequest),
-) (res *opensearchapi.Response, err error) {
-	var b bytes.Buffer
-	err = json.NewEncoder(&b).Encode(req.Map())
+	ctx context.Context,
+    client *opensearch.Client,
+    options *Options,
+) (*opensearchapi.SearchResp, error) {
+	// Serialize the request body to JSON
+	body, err := json.Marshal(req.Map())
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to serialize request body: %w", err)
 	}
 
-	opts := append([]func(*opensearchapi.CountRequest){count.WithBody(&b)}, o...)
+	// Create a Search request, setting size to 0 to avoid fetching documents
+	searchReq := opensearchapi.SearchReq{
+		Body: bytes.NewReader(body),
+	}
 
-	return count(opts...)
+	// Apply additional options if provided
+    ApplyOptions(&searchReq, options)
+
+    // Create a variable to hold the response
+    var searchResp opensearchapi.SearchResp
+
+    // Execute the search request using the OpenSearch client's Do method
+    if _, err := client.Do(ctx, searchReq, &searchResp); err != nil {
+        return nil, fmt.Errorf("search request failed: %w", err)
+    }
+
+    // Return the parsed response
+    return &searchResp, nil
 }

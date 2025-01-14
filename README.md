@@ -22,7 +22,7 @@ Search Response type has been changed to ```*opensearchapi.SearchResp``` instead
 Starting from `v2.0.0`, the module path has changed. To upgrade, update your `go.mod` file to:
 
 ```bash
-go get github.com/username/repository/v2
+go get github.com/defensestation/osquery/v2
 ```
 
 ## License

@@ -1,4 +1,4 @@
-module github.com/defensestation/osquery
+module github.com/defensestation/osquery/v2
 
 go 1.22.1
 

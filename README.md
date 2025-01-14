@@ -1,3 +1,5 @@
+[![Go Reference](https://pkg.go.dev/badge/github.com/defensestation/osquery@v2.0.0#section-documentation.svg)](https://pkg.go.dev/github.com/defensestation/osquery/v2) 
+
 # osquery
 
 This project is based on [esquery](https://github.com/aquasecurity/esquery) which is licensed under the Apache License 2.0.
@@ -8,6 +10,20 @@ This project is based on [esquery](https://github.com/aquasecurity/esquery) whic
 - Changed package name to 'osquery'
 - Updated references to OpenSearch documentation
 - Modified examples accordingly
+
+#### Major Breaking Change Update in osquery v2.0.0
+
+To support ```github.com/opensearch-project/opensearch-go/v4```, in the osquery version 2, the ```Run``` method has been changed. It takes ```context```, ```client```, and ```osquery.Options{}```, as arguments. 
+
+Search Response type has been changed to ```*opensearchapi.SearchResp``` instead of ```*opensearchapi.Response```
+
+### Upgrading to v2
+
+Starting from `v2.0.0`, the module path has changed. To upgrade, update your `go.mod` file to:
+
+```bash
+go get github.com/username/repository/v2
+```
 
 ## License
 
@@ -47,7 +63,7 @@ This is an early release, API may still change.
 `osquery` is a Go module. To install, simply run this in your project's root directory:
 
 ```bash
-go get github.com/defensestation/osquery
+go get github.com/defensestation/osquery/v2
 ```
 
 ## Usage
@@ -105,10 +121,6 @@ func main() {
 ```
 
 ## Notes
-
-#### Major Breaking Change Update in osquery v2.0.0
-
-To support ```github.com/opensearch-project/opensearch-go/v4```, in the osquery version 2, the ```Run``` method has been changed. It takes ```context```, ```client```, and ```osquery.Options{}```, as arguments. 
 
 * `osquery` currently supports version 7 of the OpenSearch Go client.
 * The library cannot currently generate "short queries". For example, whereas

@@ -181,7 +181,7 @@ func (req *SearchRequest) Run(
     options *Options,
 ) (*opensearchapi.SearchResp, error) {
     // Serialize the request body to JSON
-	body, err := json.Marshal(req.query.Map())
+	body, err := json.Marshal(req.Map())
 	if err != nil {
 		return nil, fmt.Errorf("failed to serialize request body: %w", err)
 	}
@@ -192,7 +192,9 @@ func (req *SearchRequest) Run(
 	}
 
     // Apply additional options if provided
-    ApplyOptions(searchReq, options)
+    ApplyOptions(&searchReq, options)
+
+    // fmt.Printf("%+v", searchReq)
 
     // Create a variable to hold the response
     var searchResp opensearchapi.SearchResp

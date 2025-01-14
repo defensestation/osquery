@@ -57,7 +57,7 @@ func (req *DeleteRequest) Run(
 	}
 
 	// Apply any additional options to modify the DeleteReq, such as context or index
-	ApplyOptions(deleteReq, options)
+	ApplyOptions(&deleteReq, options)
 
 	var deleteResp opensearchapi.DocumentDeleteByQueryResp
 

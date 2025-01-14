@@ -55,7 +55,7 @@ func (req *CountRequest) Run(
 	}
 
 	// Apply additional options if provided
-    ApplyOptions(searchReq, options)
+    ApplyOptions(&searchReq, options)
 
     // Create a variable to hold the response
     var searchResp opensearchapi.SearchResp

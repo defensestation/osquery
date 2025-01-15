@@ -176,11 +176,11 @@ func (req *SearchRequest) MarshalJSON() ([]byte, error) {
 
 // Run executes the search using the OpenSearch client, applying additional options.
 func (req *SearchRequest) Run(
-    ctx context.Context,
-    client *opensearch.Client,
-    options *Options,
+	ctx context.Context,
+	client *opensearch.Client,
+	options *Options,
 ) (*opensearchapi.SearchResp, error) {
-    // Serialize the request body to JSON
+	// Serialize the request body to JSON
 	body, err := json.Marshal(req.Map())
 	if err != nil {
 		return nil, fmt.Errorf("failed to serialize request body: %w", err)
@@ -191,21 +191,24 @@ func (req *SearchRequest) Run(
 		Body: bytes.NewReader(body),
 	}
 
-    // Apply additional options if provided
-    ApplyOptions(&searchReq, options)
+	// Apply additional options if provided
+	err = ApplyOptions(&searchReq, options)
+	if err != nil {
+		return nil, err
+	}
 
-    // fmt.Printf("%+v", searchReq)
+	// fmt.Printf("%+v", searchReq)
 
-    // Create a variable to hold the response
-    var searchResp opensearchapi.SearchResp
+	// Create a variable to hold the response
+	var searchResp opensearchapi.SearchResp
 
-    // Execute the search request using the OpenSearch client's Do method
-    if _, err := client.Do(ctx, searchReq, &searchResp); err != nil {
-        return nil, fmt.Errorf("search request failed: %w", err)
-    }
+	// Execute the search request using the OpenSearch client's Do method
+	if _, err := client.Do(ctx, searchReq, &searchResp); err != nil {
+		return nil, fmt.Errorf("search request failed: %w", err)
+	}
 
-    // Return the parsed response
-    return &searchResp, nil
+	// Return the parsed response
+	return &searchResp, nil
 }
 
 // Query is a shortcut for creating a SearchRequest with only a query. It is

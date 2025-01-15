@@ -6,6 +6,7 @@ package osquery
 
 import (
 	context "context"
+
 	opensearch "github.com/opensearch-project/opensearch-go/v4"
 	opensearchapi "github.com/opensearch-project/opensearch-go/v4/opensearchapi"
 )

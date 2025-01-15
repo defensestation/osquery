@@ -102,7 +102,7 @@ func TestAggregations(t *testing.T) {
 		},
 		{
 			"order for termsAggs",
-			//eq.Aggregate(eq.TermsAgg("a1", "FIELD1").Size(0).Aggs(eq.Sum("a2", "FIELD2.SUBFIELD")))
+			// eq.Aggregate(eq.TermsAgg("a1", "FIELD1").Size(0).Aggs(eq.Sum("a2", "FIELD2.SUBFIELD")))
 			Aggregate(
 				TermsAgg("categories", "categories").
 					Order(map[string]string{"priceSum": "desc"}).
@@ -130,7 +130,7 @@ func TestAggregations(t *testing.T) {
 		},
 		{
 			"Single include for termsAggs",
-			//eq.Aggregate(eq.TermsAgg("a1", "FIELD1").Size(0).Aggs(eq.Sum("a2", "FIELD2.SUBFIELD")))
+			// eq.Aggregate(eq.TermsAgg("a1", "FIELD1").Size(0).Aggs(eq.Sum("a2", "FIELD2.SUBFIELD")))
 			Aggregate(
 				TermsAgg("categories", "categories").
 					Include("red.*|blue.*"),
@@ -148,7 +148,7 @@ func TestAggregations(t *testing.T) {
 		},
 		{
 			"Multi include for termsAggs",
-			//eq.Aggregate(eq.TermsAgg("a1", "FIELD1").Size(0).Aggs(eq.Sum("a2", "FIELD2.SUBFIELD")))
+			// eq.Aggregate(eq.TermsAgg("a1", "FIELD1").Size(0).Aggs(eq.Sum("a2", "FIELD2.SUBFIELD")))
 			Aggregate(
 				TermsAgg("categories", "categories").
 					Include("red", "blue"),

@@ -5,8 +5,8 @@
 package osquery
 
 import (
-	"context"
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
 
@@ -53,18 +53,21 @@ func (req *DeleteRequest) Run(
 
 	// Create a DeleteReq with the request body
 	deleteReq := opensearchapi.DocumentDeleteByQueryReq{
-		Body:    bytes.NewReader(body),                           // Pass the encoded request body
+		Body: bytes.NewReader(body), // Pass the encoded request body
 	}
 
 	// Apply any additional options to modify the DeleteReq, such as context or index
-	ApplyOptions(&deleteReq, options)
+	err = ApplyOptions(&deleteReq, options)
+	if err != nil {
+		return nil, err
+	}
 
 	var deleteResp opensearchapi.DocumentDeleteByQueryResp
 
 	// Execute the delete request using the OpenSearch client's Do method
-    if _, err := client.Do(ctx, deleteReq, &deleteResp); err != nil {
-        return nil, fmt.Errorf("delete request failed: %w", err)
-    }
+	if _, err := client.Do(ctx, deleteReq, &deleteResp); err != nil {
+		return nil, fmt.Errorf("delete request failed: %w", err)
+	}
 
 	return &deleteResp, nil
 }

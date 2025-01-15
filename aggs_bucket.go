@@ -97,7 +97,6 @@ func (agg *TermsAggregation) Map() map[string]interface{} {
 		} else {
 			innerMap["include"] = agg.include
 		}
-
 	}
 
 	outerMap := map[string]interface{}{

@@ -15,7 +15,7 @@ func (q *QueryHighlight) Map() map[string]interface{} {
 	if q.highlightQuery != nil {
 		results["query"] = q.highlightQuery.Map()
 	}
-	if q.fields != nil && len(q.fields) > 0 {
+	if len(q.fields) > 0 {
 		fields := make(map[string]interface{})
 		for k, v := range q.fields {
 			fields[k] = v.Map()

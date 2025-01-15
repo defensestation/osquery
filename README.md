@@ -1,4 +1,4 @@
-[![Go Reference](https://pkg.go.dev/badge/github.com/defensestation/osquery@v2.0.0#section-documentation.svg)](https://pkg.go.dev/github.com/defensestation/osquery/v2) 
+[![Go Reference](https://pkg.go.dev/badge/github.com/defensestation/osquery@v2.0.0#section-documentation.svg)](https://pkg.go.dev/github.com/defensestation/osquery/v2)[![CircleCI](https://dl.circleci.com/status-badge/img/gh/defensestation/osquery/tree/master.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/defensestation/osquery/tree/master)
 
 # osquery
 

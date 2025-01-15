@@ -3,6 +3,18 @@ version: 2.1
 
 # jobs
 jobs:
+  #Run Linter  
+  lint:
+    docker:
+      - image: cimg/go:1.22.1
+    steps:
+      - checkout # check out source code to working directory
+
+      #Run Test
+      - run: 
+          name: "Run Linter"
+          command: |
+            golangci-lint run  ./...
   #Run Test  
   test:
     docker:
@@ -22,4 +34,5 @@ workflows:
   # build binary
   build:
     jobs:
+      - lint
       - test

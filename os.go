@@ -88,8 +88,8 @@
 //
 //
 //
-//* osquery currently supports version 7 of the OpenSearch Go client.
-//* The library cannot currently generate "short queries". For example,
+// * osquery currently supports version 7 of the OpenSearch Go client.
+// * The library cannot currently generate "short queries". For example,
 //  whereas OpenSearch can accept this:
 //
 //     { "query": { "term": { "user": "Kimchy" } } }

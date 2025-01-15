@@ -5,8 +5,8 @@
 package osquery
 
 import (
-	"context"
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
 
@@ -40,8 +40,8 @@ func (req *CountRequest) Map() map[string]interface{} {
 // the HTTP response directly for further processing.
 func (req *CountRequest) Run(
 	ctx context.Context,
-    client *opensearch.Client,
-    options *Options,
+	client *opensearch.Client,
+	options *Options,
 ) (*opensearchapi.SearchResp, error) {
 	// Serialize the request body to JSON
 	body, err := json.Marshal(req.Map())
@@ -55,16 +55,19 @@ func (req *CountRequest) Run(
 	}
 
 	// Apply additional options if provided
-    ApplyOptions(&searchReq, options)
+	err = ApplyOptions(&searchReq, options)
+	if err != nil {
+		return nil, err
+	}
 
-    // Create a variable to hold the response
-    var searchResp opensearchapi.SearchResp
+	// Create a variable to hold the response
+	var searchResp opensearchapi.SearchResp
 
-    // Execute the search request using the OpenSearch client's Do method
-    if _, err := client.Do(ctx, searchReq, &searchResp); err != nil {
-        return nil, fmt.Errorf("search request failed: %w", err)
-    }
+	// Execute the search request using the OpenSearch client's Do method
+	if _, err := client.Do(ctx, searchReq, &searchResp); err != nil {
+		return nil, fmt.Errorf("search request failed: %w", err)
+	}
 
-    // Return the parsed response
-    return &searchResp, nil
+	// Return the parsed response
+	return &searchResp, nil
 }

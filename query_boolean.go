@@ -15,11 +15,19 @@ type BoolQuery struct {
 	should             []Mappable
 	minimumShouldMatch int16
 	boost              float32
+	name               string
 }
 
 // Bool creates a new compound query of type "bool".
 func Bool() *BoolQuery {
 	return &BoolQuery{}
+}
+
+// Name sets the name of the query that is returned in matched_queries in response
+// if document matches the query.
+func (q *BoolQuery) Name(name string) *BoolQuery {
+	q.name = name
+	return q
 }
 
 // Must adds one or more queries of type "must" to the bool query. Must can be
@@ -73,10 +81,12 @@ func (q *BoolQuery) Map() map[string]interface{} {
 		Should             []map[string]interface{} `structs:"should,omitempty"`
 		MinimumShouldMatch int16                    `structs:"minimum_should_match,omitempty"`
 		Boost              float32                  `structs:"boost,omitempty"`
+		Name               string                   `structs:"_name,omitempty"`
 	}
 
 	data.MinimumShouldMatch = q.minimumShouldMatch
 	data.Boost = q.boost
+	data.Name = q.name
 
 	if len(q.must) > 0 {
 		data.Must = make([]map[string]interface{}, len(q.must))

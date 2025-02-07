@@ -391,6 +391,7 @@ type termQueryParams struct {
 	Value           interface{} `structs:"value"`
 	Boost           float32     `structs:"boost,omitempty"`
 	CaseInsensitive bool        `structs:"case_insensitive,omitempty"`
+	Name            string      `structs:"_name,omitempty"`
 }
 
 // Term creates a new query of type "term" on the provided field and using the
@@ -407,6 +408,13 @@ func Term(field string, value interface{}) *TermQuery {
 // Value sets the term value for the query.
 func (q *TermQuery) Value(val interface{}) *TermQuery {
 	q.params.Value = val
+	return q
+}
+
+// Name sets the name of the query that is returned in matched_queries in response
+// if document matches the query.
+func (q *TermQuery) Name(name string) *TermQuery {
+	q.params.Name = name
 	return q
 }
 

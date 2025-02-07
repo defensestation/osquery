@@ -12,7 +12,7 @@ func TestBool(t *testing.T) {
 	runMapTests(t, []mapTest{
 		{
 			"bool with only a simple must",
-			Bool().Must(Term("tag", "tech")),
+			Bool().Must(Term("tag", "tech")).Name("test"),
 			map[string]interface{}{
 				"bool": map[string]interface{}{
 					"must": []map[string]interface{}{
@@ -24,6 +24,7 @@ func TestBool(t *testing.T) {
 							},
 						},
 					},
+					"_name": "test",
 				},
 			},
 		},

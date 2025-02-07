@@ -152,5 +152,17 @@ func TestTermLevel(t *testing.T) {
 				},
 			},
 		},
+		{
+			"named query",
+			Term("user", "Sushmita").Name("test"),
+			map[string]interface{}{
+				"term": map[string]interface{}{
+					"user": map[string]interface{}{
+						"value": "Sushmita",
+						"_name": "test",
+					},
+				},
+			},
+		},
 	})
 }

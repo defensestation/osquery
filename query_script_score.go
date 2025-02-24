@@ -1,6 +1,5 @@
 // Modified by Sushmita on 2025-01-31
-// Changes: Updated ElasticSearch client to OpenSearch client, changed package name to 'osquery',
-// updated references to OpenSearch documentation, and modified examples accordingly.
+// Changes: Added script score query support
 
 package osquery
 

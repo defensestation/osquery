@@ -2,7 +2,8 @@ package osquery
 
 import "github.com/fatih/structs"
 
-// KNNQuery represents a k-nearest-neighbors query for OpenSearch.
+// KNNQuery represents a k-nearest-neighbors query for OpenSearch, as described in
+// https://opensearch.org/docs/latest/query-dsl/specialized/k-nn/
 type KNNQuery struct {
 	field            string
 	vector           []float64

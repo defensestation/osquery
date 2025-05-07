@@ -7,8 +7,8 @@ import (
 	"fmt"
 	"time"
 
-	opensearch "github.com/opensearch-project/opensearch-go/v4"
-	opensearchapi "github.com/opensearch-project/opensearch-go/v4/opensearchapi"
+	"github.com/opensearch-project/opensearch-go/v4"
+	"github.com/opensearch-project/opensearch-go/v4/opensearchapi"
 )
 
 // SearchRequest represents the parameters for an OpenSearch query.
@@ -64,13 +64,8 @@ func (req *SearchRequest) Size(size uint64) *SearchRequest {
 }
 
 // Sort sets how the results should be sorted.
-func (req *SearchRequest) Sort(name string, order Order) *SearchRequest {
-	req.sort = append(req.sort, map[string]interface{}{
-		name: map[string]interface{}{
-			"order": order,
-		},
-	})
-
+func (req *SearchRequest) Sort(params SortParams) *SearchRequest {
+	req.sort = append(req.sort, params)
 	return req
 }
 
@@ -136,7 +131,11 @@ func (req *SearchRequest) Map() map[string]interface{} {
 		m["size"] = *req.size
 	}
 	if len(req.sort) > 0 {
-		m["sort"] = req.sort
+		sortMaps := make([]map[string]interface{}, 0, len(req.sort))
+		for _, params := range req.sort {
+			sortMaps = append(sortMaps, params.Map())
+		}
+		m["sort"] = sortMaps
 	}
 	if req.from != nil {
 		m["from"] = *req.from

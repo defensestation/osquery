@@ -66,8 +66,10 @@ type SortParams struct {
 }
 
 func (s SortParams) Map() map[string]interface{} {
-	sortOptions := map[string]interface{}{
-		"order": s.Order,
+	sortOptions := map[string]interface{}{}
+
+	if s.Order != "" {
+		sortOptions["order"] = s.Order
 	}
 	if s.Mode != "" {
 		sortOptions["mode"] = s.Mode

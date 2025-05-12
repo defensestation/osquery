@@ -64,8 +64,8 @@ func (req *SearchRequest) Size(size uint64) *SearchRequest {
 }
 
 // Sort sets how the results should be sorted.
-func (req *SearchRequest) Sort(params SortParams) *SearchRequest {
-	req.sort = append(req.sort, params)
+func (req *SearchRequest) Sort(params ...SortParams) *SearchRequest {
+	req.sort = params
 	return req
 }
 

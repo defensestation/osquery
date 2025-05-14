@@ -1,4 +1,5 @@
-// Package osquery provides a query builder for OpenSearch.
+// Package osquery Modified by harshit98 on 2025-05-07
+// Changes: Added sort params support like mode, nested_path, nested_filter
 package osquery
 
 import (

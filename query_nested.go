@@ -1,4 +1,4 @@
-// Modified by bforbhartiii on 2025-02-24
+// Package osquery Modified by bforbhartiii on 2025-02-24
 // Changes: Added nested query support
 package osquery
 
@@ -7,19 +7,19 @@ import "github.com/fatih/structs"
 type ScoreModeType string
 
 const (
-	// Uses the average relevance score of all matching inner documents
+	// ScoreModeAvg Uses the average relevance score of all matching inner documents
 	ScoreModeAvg ScoreModeType = "avg"
 
-	// Assigns the highest relevance score from the matching inner documents to the parent.
+	// ScoreModeMax Assigns the highest relevance score from the matching inner documents to the parent.
 	ScoreModeMax ScoreModeType = "max"
 
-	// Assigns the lowest relevance score from the matching inner documents to the parent.
+	// ScoreModeMin Assigns the lowest relevance score from the matching inner documents to the parent.
 	ScoreModeMin ScoreModeType = "min"
 
-	// Sums the relevance scores of all matching inner documents.
+	// ScoreModeSum Sums the relevance scores of all matching inner documents.
 	ScoreModeSum ScoreModeType = "sum"
 
-	// Ignores the relevance scores of inner documents and assigns a score of 0 to the parent document.
+	// ScoreModeNone Ignores the relevance scores of inner documents and assigns a score of 0 to the parent document.
 	ScoreModeNone ScoreModeType = "none"
 )
 

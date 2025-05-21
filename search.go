@@ -21,7 +21,7 @@ type SearchRequest struct {
 	postFilter   Mappable
 	query        Mappable
 	size         *uint64
-	sort         Sort
+	sort         []SortOption
 	source       Source
 	timeout      *time.Duration
 	scriptFields []*ScriptField
@@ -63,9 +63,18 @@ func (req *SearchRequest) Size(size uint64) *SearchRequest {
 	return req
 }
 
-// Sort sets how the results should be sorted.
-func (req *SearchRequest) Sort(params ...SortParams) *SearchRequest {
-	req.sort = params
+// Sort appends one or more sort options.
+// Accepts any type that implements SortOption (field, script, raw)
+func (req *SearchRequest) Sort(opts ...SortOption) *SearchRequest {
+	if opts != nil {
+		req.sort = append(req.sort, opts...)
+	}
+	return req
+}
+
+// SortScript is a convenience method for script-based sorting
+func (req *SearchRequest) SortScript(params ScriptSortParams) *SearchRequest {
+	req.sort = append(req.sort, &params)
 	return req
 }
 
@@ -131,11 +140,11 @@ func (req *SearchRequest) Map() map[string]interface{} {
 		m["size"] = *req.size
 	}
 	if len(req.sort) > 0 {
-		sortMaps := make([]map[string]interface{}, 0, len(req.sort))
+		sortSlice := make([]any, 0, len(req.sort))
 		for _, params := range req.sort {
-			sortMaps = append(sortMaps, params.Map())
+			sortSlice = append(sortSlice, params.Map())
 		}
-		m["sort"] = sortMaps
+		m["sort"] = sortSlice
 	}
 	if req.from != nil {
 		m["from"] = *req.from

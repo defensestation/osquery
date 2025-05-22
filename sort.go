@@ -36,8 +36,8 @@ type SortOption interface {
 	Map() map[string]any
 }
 
-// ScriptSortParams represents a script-based sort option for elasticsearch
-type ScriptSortParams struct {
+// ScriptSortOption represents a script-based sort option for elasticsearch
+type ScriptSortOption struct {
 	sortType string
 	script   *ScriptField
 	order    Order
@@ -45,19 +45,19 @@ type ScriptSortParams struct {
 
 // ScriptSort creates a new query of type "_script" with the provided
 // type and script.
-func ScriptSort(scriptField *ScriptField, sortType string) *ScriptSortParams {
-	return &ScriptSortParams{
+func ScriptSort(scriptField *ScriptField, sortType string) *ScriptSortOption {
+	return &ScriptSortOption{
 		script:   scriptField,
 		sortType: sortType,
 	}
 }
 
-func (s *ScriptSortParams) Order(order Order) *ScriptSortParams {
+func (s *ScriptSortOption) Order(order Order) *ScriptSortOption {
 	s.order = order
 	return s
 }
 
-func (s *ScriptSortParams) Map() map[string]any {
+func (s *ScriptSortOption) Map() map[string]any {
 	scriptMapRaw, ok := s.script.Map()["script"]
 	if !ok {
 		return nil
@@ -82,7 +82,7 @@ func (s *ScriptSortParams) Map() map[string]any {
 	}
 }
 
-type SortParams struct {
+type FieldSortOption struct {
 	field        string
 	order        Order
 	mode         Mode
@@ -90,49 +90,52 @@ type SortParams struct {
 	nestedFilter Mappable
 }
 
-func Field(field string) *SortParams {
-	return &SortParams{
+func FieldSort(field string) *FieldSortOption {
+	return &FieldSortOption{
 		field: field,
 	}
 }
 
-func (s *SortParams) Order(order Order) *SortParams {
-	s.order = order
-	return s
+func (f *FieldSortOption) Order(order Order) *FieldSortOption {
+	f.order = order
+	return f
 }
 
-func (s *SortParams) Mode(mode Mode) *SortParams {
-	s.mode = mode
-	return s
+func (f *FieldSortOption) Mode(mode Mode) *FieldSortOption {
+	f.mode = mode
+	return f
 }
 
-func (s *SortParams) NestedPath(nestedPath string) *SortParams {
-	s.nestedPath = nestedPath
-	return s
+func (f *FieldSortOption) NestedPath(nestedPath string) *FieldSortOption {
+	f.nestedPath = nestedPath
+	return f
 }
 
-func (s *SortParams) NestedFilter(nestedFilter Mappable) *SortParams {
-	s.nestedFilter = nestedFilter
-	return s
+func (f *FieldSortOption) NestedFilter(nestedFilter Mappable) *FieldSortOption {
+	f.nestedFilter = nestedFilter
+	return f
 }
 
-func (s *SortParams) Map() map[string]any {
+func (f *FieldSortOption) Map() map[string]any {
 	sortOptions := map[string]any{}
 
-	if s.order != "" {
-		sortOptions["order"] = s.order
+	if f.order != "" {
+		sortOptions["order"] = f.order
 	}
-	if s.mode != "" {
-		sortOptions["mode"] = s.mode
-	}
-	if s.nestedPath != "" {
-		sortOptions["nested_path"] = s.nestedPath
 
-		if s.nestedFilter != nil {
-			sortOptions["nested_filter"] = s.nestedFilter.Map()
+	if f.mode != "" {
+		sortOptions["mode"] = f.mode
+	}
+
+	if f.nestedPath != "" {
+		sortOptions["nested_path"] = f.nestedPath
+
+		if f.nestedFilter != nil {
+			sortOptions["nested_filter"] = f.nestedFilter.Map()
 		}
 	}
+
 	return map[string]any{
-		s.field: sortOptions,
+		f.field: sortOptions,
 	}
 }

@@ -72,12 +72,6 @@ func (req *SearchRequest) Sort(opts ...SortOption) *SearchRequest {
 	return req
 }
 
-// SortScript is a convenience method for script-based sorting
-func (req *SearchRequest) SortScript(params ScriptSortParams) *SearchRequest {
-	req.sort = append(req.sort, &params)
-	return req
-}
-
 // SearchAfter retrieve the sorted result
 func (req *SearchRequest) SearchAfter(s ...interface{}) *SearchRequest {
 	req.searchAfter = append(req.searchAfter, s...)

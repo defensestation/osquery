@@ -38,6 +38,7 @@ type multiMatchParams struct {
 	MinMatch            string         `structs:"minimum_should_match,omitempty"`
 	ZeroTerms           ZeroTerms      `structs:"zero_terms_query,string,omitempty"`
 	Slp                 uint16         `structs:"slop,omitempty"`
+	Name                string         `structs:"_name,omitempty"`
 }
 
 // MultiMatch creates a new query of type "multi_match"
@@ -62,6 +63,13 @@ func newMultiMatch(simpleQuery ...interface{}) *MultiMatchQuery {
 // of the query).
 func (q *MultiMatchQuery) Query(data interface{}) *MultiMatchQuery {
 	q.params.Qry = data
+	return q
+}
+
+// Name sets the name of the query that is returned in matched_queries in response
+// if document matches the query.
+func (q *MultiMatchQuery) Name(n string) *MultiMatchQuery {
+	q.params.Name = n
 	return q
 }
 

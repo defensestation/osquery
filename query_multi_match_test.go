@@ -39,7 +39,8 @@ func TestMultiMatch(t *testing.T) {
 				Type(MatchTypePhrase).
 				MinimumShouldMatch("3<90%").
 				Slop(2).
-				ZeroTermsQuery(ZeroTermsAll),
+				ZeroTermsQuery(ZeroTermsAll).
+				Name("test"),
 			map[string]interface{}{
 				"multi_match": map[string]interface{}{
 					"analyzer":                            "stop",
@@ -59,6 +60,7 @@ func TestMultiMatch(t *testing.T) {
 					"slop":                                2,
 					"query":                               "test",
 					"fields":                              []string{"title", "body"},
+					"_name":                               "test",
 				},
 			},
 		},

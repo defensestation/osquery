@@ -7,8 +7,8 @@ import (
 	"fmt"
 	"time"
 
-	opensearch "github.com/opensearch-project/opensearch-go/v4"
-	opensearchapi "github.com/opensearch-project/opensearch-go/v4/opensearchapi"
+	"github.com/opensearch-project/opensearch-go/v4"
+	"github.com/opensearch-project/opensearch-go/v4/opensearchapi"
 )
 
 // SearchRequest represents the parameters for an OpenSearch query.
@@ -21,7 +21,7 @@ type SearchRequest struct {
 	postFilter   Mappable
 	query        Mappable
 	size         *uint64
-	sort         Sort
+	sort         []SortOption
 	source       Source
 	timeout      *time.Duration
 	scriptFields []*ScriptField
@@ -63,14 +63,12 @@ func (req *SearchRequest) Size(size uint64) *SearchRequest {
 	return req
 }
 
-// Sort sets how the results should be sorted.
-func (req *SearchRequest) Sort(name string, order Order) *SearchRequest {
-	req.sort = append(req.sort, map[string]interface{}{
-		name: map[string]interface{}{
-			"order": order,
-		},
-	})
-
+// Sort appends one or more sort options.
+// Accepts any type that implements SortOption (field, script, raw)
+func (req *SearchRequest) Sort(opts ...SortOption) *SearchRequest {
+	if opts != nil {
+		req.sort = append(req.sort, opts...)
+	}
 	return req
 }
 
@@ -136,7 +134,11 @@ func (req *SearchRequest) Map() map[string]interface{} {
 		m["size"] = *req.size
 	}
 	if len(req.sort) > 0 {
-		m["sort"] = req.sort
+		sortSlice := make([]any, 0, len(req.sort))
+		for _, params := range req.sort {
+			sortSlice = append(sortSlice, params.Map())
+		}
+		m["sort"] = sortSlice
 	}
 	if req.from != nil {
 		m["from"] = *req.from

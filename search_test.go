@@ -57,8 +57,10 @@ func TestSearchMaps(t *testing.T) {
 				Size(30).
 				From(5).
 				Explain(true).
-				Sort("field_1", OrderDesc).
-				Sort("field_2", OrderAsc).
+				Sort(
+					FieldSort("field_1").Order(OrderDesc),
+					FieldSort("field_2").Order(OrderAsc),
+				).
 				SourceIncludes("field_1", "field_2").
 				SourceExcludes("field_3").
 				Timeout(time.Duration(20000000000)).

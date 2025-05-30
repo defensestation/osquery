@@ -22,17 +22,3 @@ func (source Source) Map() map[string]interface{} {
 	}
 	return m
 }
-
-// Sort represents a list of keys to sort by.
-type Sort []map[string]interface{}
-
-// Order is the ordering for a sort key (ascending, descending).
-type Order string
-
-const (
-	// OrderAsc represents sorting in ascending order.
-	OrderAsc Order = "asc"
-
-	// OrderDesc represents sorting in descending order.
-	OrderDesc Order = "desc"
-)

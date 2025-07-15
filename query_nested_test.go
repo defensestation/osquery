@@ -57,5 +57,22 @@ func TestNestedQuery(t *testing.T) {
 				},
 			},
 		},
+		{
+			"nested query with name",
+			Nested("comments", Term("user", "kimchy")).Name("nested_comments"),
+			map[string]interface{}{
+				"nested": map[string]interface{}{
+					"path": "comments",
+					"query": map[string]interface{}{
+						"term": map[string]interface{}{
+							"user": map[string]interface{}{
+								"value": "kimchy",
+							},
+						},
+					},
+					"name": "nested_comments",
+				},
+			},
+		},
 	})
 }

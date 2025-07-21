@@ -64,7 +64,7 @@ func (q *NestedQuery) Map() map[string]interface{} {
 		"nested": structs.Map(struct {
 			Path      string                 `structs:"path"`
 			Query     map[string]interface{} `structs:"query"`
-			Name      string                 `structs:"name,omitempty"`
+			Name      string                 `structs:"_name,omitempty"`
 			ScoreMode string                 `structs:"score_mode,omitempty"`
 			InnerHits map[string]interface{} `structs:"inner_hits,omitempty"`
 		}{q.path, q.query.Map(), q.name, q.scoreMode, q.innerHits}),

@@ -103,6 +103,12 @@ func (req *SearchRequest) SourceExcludes(keys ...string) *SearchRequest {
 	return req
 }
 
+// DisableSource ensures no matching documents are returned
+func (req *SearchRequest) DisableSource() *SearchRequest {
+	req.source.disabled = true
+	return req
+}
+
 // Highlight sets a highlight for the request.
 func (req *SearchRequest) Highlight(highlight Mappable) *SearchRequest {
 	req.highlight = highlight

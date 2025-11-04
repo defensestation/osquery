@@ -19,13 +19,16 @@ func TestSearchMaps(t *testing.T) {
 			},
 		},
 		{
-			"a simple match_all query with a size and no aggs",
-			Search().Query(MatchAll()).Size(20),
+			"a simple match_all query with a size, no aggs and source disabled",
+			Search().Query(MatchAll()).Size(20).DisableSource(),
 			map[string]interface{}{
 				"query": map[string]interface{}{
 					"match_all": map[string]interface{}{},
 				},
 				"size": 20,
+				"_source": map[string]interface{}{
+					"enabled": false,
+				},
 			},
 		},
 		{

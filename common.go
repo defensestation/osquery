@@ -9,6 +9,7 @@ package osquery
 type Source struct {
 	includes []string
 	excludes []string
+	disabled bool
 }
 
 // Map returns a map representation of the Source object.
@@ -19,6 +20,9 @@ func (source Source) Map() map[string]interface{} {
 	}
 	if len(source.excludes) > 0 {
 		m["excludes"] = source.excludes
+	}
+	if source.disabled {
+		m["enabled"] = false
 	}
 	return m
 }

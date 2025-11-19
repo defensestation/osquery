@@ -20,6 +20,7 @@ type SearchRequest struct {
 	searchAfter  []interface{}
 	postFilter   Mappable
 	query        Mappable
+	collapse     *Collapse
 	size         *uint64
 	sort         []SortOption
 	source       Source
@@ -60,6 +61,12 @@ func (req *SearchRequest) From(offset uint64) *SearchRequest {
 // documentation - is 10.
 func (req *SearchRequest) Size(size uint64) *SearchRequest {
 	req.size = &size
+	return req
+}
+
+// Collapse sets field collapsing for the request.
+func (req *SearchRequest) Collapse(collapse *Collapse) *SearchRequest {
+	req.collapse = collapse
 	return req
 }
 
@@ -132,6 +139,11 @@ func (req *SearchRequest) Map() map[string]interface{} {
 	}
 	if req.size != nil {
 		m["size"] = *req.size
+	}
+	if req.collapse != nil {
+		collapse := make(map[string]interface{})
+		collapse = req.collapse.Map()
+		m["collapse"] = collapse
 	}
 	if len(req.sort) > 0 {
 		sortSlice := make([]any, 0, len(req.sort))

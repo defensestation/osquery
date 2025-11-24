@@ -31,6 +31,17 @@ const (
 	SortModeMedian Mode = "median"
 )
 
+// Missing allows you to control where documents with missing values are placed in the sorted results
+type Missing string
+
+const (
+	// MissingLast represents Documents missing the field are treated as having the lowest possible value and are sorted to the end of the results
+	MissingLast Missing = "_last"
+
+	// MissingFirst represents Documents missing the field are treated as having the highest possible value and are sorted to the beginning of the results
+	MissingFirst Missing = "_first"
+)
+
 // SortOption is an interface for different types of sort options
 type SortOption interface {
 	Map() map[string]any
@@ -86,6 +97,7 @@ type FieldSortOption struct {
 	field        string
 	order        Order
 	mode         Mode
+	missing      Missing
 	nestedPath   string
 	nestedFilter Mappable
 }
@@ -103,6 +115,11 @@ func (f *FieldSortOption) Order(order Order) *FieldSortOption {
 
 func (f *FieldSortOption) Mode(mode Mode) *FieldSortOption {
 	f.mode = mode
+	return f
+}
+
+func (f *FieldSortOption) Missing(missing Missing) *FieldSortOption {
+	f.missing = missing
 	return f
 }
 
@@ -125,6 +142,10 @@ func (f *FieldSortOption) Map() map[string]any {
 
 	if f.mode != "" {
 		sortOptions["mode"] = f.mode
+	}
+
+	if f.missing != "" {
+		sortOptions["missing"] = f.missing
 	}
 
 	if f.nestedPath != "" {

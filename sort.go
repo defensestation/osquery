@@ -35,10 +35,12 @@ const (
 type Missing string
 
 const (
-	// MissingLast represents Documents missing the field are treated as having the lowest possible value and are sorted to the end of the results
+	// MissingLast indicates that documents missing the field are treated as having
+	// the lowest possible value and are sorted to the end of the search results.
 	MissingLast Missing = "_last"
 
-	// MissingFirst represents Documents missing the field are treated as having the highest possible value and are sorted to the beginning of the results
+	// MissingFirst indicates that documents missing the field are treated as having
+	// the highest possible value and are sorted to the beginning of the search results.
 	MissingFirst Missing = "_first"
 )
 

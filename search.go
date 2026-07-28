@@ -5,6 +5,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"net/http"
 	"time"
 
 	"github.com/opensearch-project/opensearch-go/v4"
@@ -211,7 +212,7 @@ func (req *SearchRequest) Run(
 	var searchResp opensearchapi.SearchResp
 
 	// Execute the search request using the OpenSearch client's Do method
-	if _, err := client.Do(ctx, searchReq, &searchResp); err != nil {
+	if _, err := client.Do(ctx, http.MethodPost, searchReq, &searchResp); err != nil {
 		return nil, fmt.Errorf("search request failed: %w", err)
 	}
 

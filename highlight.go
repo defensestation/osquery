@@ -10,13 +10,13 @@ import (
 
 // Map returns a map representation of the highlight; implementing the
 // Mappable interface.
-func (q *QueryHighlight) Map() map[string]interface{} {
+func (q *QueryHighlight) Map() map[string]any {
 	results := structs.Map(q.params)
 	if q.highlightQuery != nil {
 		results["query"] = q.highlightQuery.Map()
 	}
 	if len(q.fields) > 0 {
-		fields := make(map[string]interface{})
+		fields := make(map[string]any)
 		for k, v := range q.fields {
 			fields[k] = v.Map()
 		}

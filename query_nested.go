@@ -29,7 +29,7 @@ type NestedQuery struct {
 	path      string
 	query     Mappable
 	scoreMode string
-	innerHits map[string]interface{}
+	innerHits map[string]any
 }
 
 // Nested creates a new query of type "nested" with the provided path and query.
@@ -47,19 +47,19 @@ func (q *NestedQuery) ScoreMode(mode ScoreModeType) *NestedQuery {
 }
 
 // InnerHits sets the inner_hits field of the query.
-func (q *NestedQuery) InnerHits(innerHits map[string]interface{}) *NestedQuery {
+func (q *NestedQuery) InnerHits(innerHits map[string]any) *NestedQuery {
 	q.innerHits = innerHits
 	return q
 }
 
 // Map returns a map representation of the query, implementing the Mappable interface.
-func (q *NestedQuery) Map() map[string]interface{} {
-	return map[string]interface{}{
+func (q *NestedQuery) Map() map[string]any {
+	return map[string]any{
 		"nested": structs.Map(struct {
-			Path      string                 `structs:"path"`
-			Query     map[string]interface{} `structs:"query"`
-			ScoreMode string                 `structs:"score_mode,omitempty"`
-			InnerHits map[string]interface{} `structs:"inner_hits,omitempty"`
+			Path      string         `structs:"path"`
+			Query     map[string]any `structs:"query"`
+			ScoreMode string         `structs:"score_mode,omitempty"`
+			InnerHits map[string]any `structs:"inner_hits,omitempty"`
 		}{q.path, q.query.Map(), q.scoreMode, q.innerHits}),
 	}
 }

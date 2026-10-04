@@ -38,12 +38,12 @@ func (q *ConstantScoreQuery) Name(name string) *ConstantScoreQuery {
 
 // Map returns a map representation of the query, thus implementing the
 // Mappable interface.
-func (q *ConstantScoreQuery) Map() map[string]interface{} {
-	return map[string]interface{}{
+func (q *ConstantScoreQuery) Map() map[string]any {
+	return map[string]any{
 		"constant_score": structs.Map(struct {
-			Filter map[string]interface{} `structs:"filter"`
-			Boost  float32                `structs:"boost,omitempty"`
-			Name   string                 `structs:"_name,omitempty"`
+			Filter map[string]any `structs:"filter"`
+			Boost  float32        `structs:"boost,omitempty"`
+			Name   string         `structs:"_name,omitempty"`
 		}{q.filter.Map(), q.boost, q.name}),
 	}
 }

@@ -73,15 +73,15 @@ func (q *BoolQuery) Boost(val float32) *BoolQuery {
 
 // Map returns a map representation of the bool query, thus implementing
 // the Mappable interface.
-func (q *BoolQuery) Map() map[string]interface{} {
+func (q *BoolQuery) Map() map[string]any {
 	var data struct {
-		Must               []map[string]interface{} `structs:"must,omitempty"`
-		Filter             []map[string]interface{} `structs:"filter,omitempty"`
-		MustNot            []map[string]interface{} `structs:"must_not,omitempty"`
-		Should             []map[string]interface{} `structs:"should,omitempty"`
-		MinimumShouldMatch int16                    `structs:"minimum_should_match,omitempty"`
-		Boost              float32                  `structs:"boost,omitempty"`
-		Name               string                   `structs:"_name,omitempty"`
+		Must               []map[string]any `structs:"must,omitempty"`
+		Filter             []map[string]any `structs:"filter,omitempty"`
+		MustNot            []map[string]any `structs:"must_not,omitempty"`
+		Should             []map[string]any `structs:"should,omitempty"`
+		MinimumShouldMatch int16            `structs:"minimum_should_match,omitempty"`
+		Boost              float32          `structs:"boost,omitempty"`
+		Name               string           `structs:"_name,omitempty"`
 	}
 
 	data.MinimumShouldMatch = q.minimumShouldMatch
@@ -89,34 +89,34 @@ func (q *BoolQuery) Map() map[string]interface{} {
 	data.Name = q.name
 
 	if len(q.must) > 0 {
-		data.Must = make([]map[string]interface{}, len(q.must))
+		data.Must = make([]map[string]any, len(q.must))
 		for i, m := range q.must {
 			data.Must[i] = m.Map()
 		}
 	}
 
 	if len(q.filter) > 0 {
-		data.Filter = make([]map[string]interface{}, len(q.filter))
+		data.Filter = make([]map[string]any, len(q.filter))
 		for i, m := range q.filter {
 			data.Filter[i] = m.Map()
 		}
 	}
 
 	if len(q.mustNot) > 0 {
-		data.MustNot = make([]map[string]interface{}, len(q.mustNot))
+		data.MustNot = make([]map[string]any, len(q.mustNot))
 		for i, m := range q.mustNot {
 			data.MustNot[i] = m.Map()
 		}
 	}
 
 	if len(q.should) > 0 {
-		data.Should = make([]map[string]interface{}, len(q.should))
+		data.Should = make([]map[string]any, len(q.should))
 		for i, m := range q.should {
 			data.Should[i] = m.Map()
 		}
 	}
 
-	return map[string]interface{}{
+	return map[string]any{
 		"bool": structs.Map(data),
 	}
 }

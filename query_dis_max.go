@@ -29,15 +29,15 @@ func (q *DisMaxQuery) TieBreaker(b float32) *DisMaxQuery {
 
 // Map returns a map representation of the dis_max query, thus implementing
 // the Mappable interface.
-func (q *DisMaxQuery) Map() map[string]interface{} {
-	inner := make([]map[string]interface{}, len(q.queries))
+func (q *DisMaxQuery) Map() map[string]any {
+	inner := make([]map[string]any, len(q.queries))
 	for i, iq := range q.queries {
 		inner[i] = iq.Map()
 	}
-	return map[string]interface{}{
+	return map[string]any{
 		"dis_max": structs.Map(struct {
-			Queries    []map[string]interface{} `structs:"queries"`
-			TieBreaker float32                  `structs:"tie_breaker,omitempty"`
+			Queries    []map[string]any `structs:"queries"`
+			TieBreaker float32          `structs:"tie_breaker,omitempty"`
 		}{inner, q.tieBreaker}),
 	}
 }

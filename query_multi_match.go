@@ -14,14 +14,14 @@ type MultiMatchQuery struct {
 
 // Map returns a map representation of the query; implementing the
 // Mappable interface.
-func (q *MultiMatchQuery) Map() map[string]interface{} {
-	return map[string]interface{}{
+func (q *MultiMatchQuery) Map() map[string]any {
+	return map[string]any{
 		"multi_match": structs.Map(q.params),
 	}
 }
 
 type multiMatchParams struct {
-	Qry                 interface{}    `structs:"query"`
+	Qry                 any            `structs:"query"`
 	Fields              []string       `structs:"fields"`
 	Type                MultiMatchType `structs:"type,string,omitempty"`
 	TieBrk              float32        `structs:"tie_breaker,omitempty"`
@@ -42,12 +42,12 @@ type multiMatchParams struct {
 }
 
 // MultiMatch creates a new query of type "multi_match"
-func MultiMatch(simpleQuery ...interface{}) *MultiMatchQuery {
+func MultiMatch(simpleQuery ...any) *MultiMatchQuery {
 	return newMultiMatch(simpleQuery...)
 }
 
-func newMultiMatch(simpleQuery ...interface{}) *MultiMatchQuery {
-	var qry interface{}
+func newMultiMatch(simpleQuery ...any) *MultiMatchQuery {
+	var qry any
 	if len(simpleQuery) > 0 {
 		qry = simpleQuery[len(simpleQuery)-1]
 	}
@@ -61,7 +61,7 @@ func newMultiMatch(simpleQuery ...interface{}) *MultiMatchQuery {
 
 // Query sets the data to find in the query's field (it is the "query" component
 // of the query).
-func (q *MultiMatchQuery) Query(data interface{}) *MultiMatchQuery {
+func (q *MultiMatchQuery) Query(data any) *MultiMatchQuery {
 	q.params.Qry = data
 	return q
 }

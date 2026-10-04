@@ -22,8 +22,8 @@ func Exists(field string) *ExistsQuery {
 
 // Map returns a map representation of the query, thus implementing the
 // Mappable interface.
-func (q *ExistsQuery) Map() map[string]interface{} {
-	return map[string]interface{}{
+func (q *ExistsQuery) Map() map[string]any {
+	return map[string]any{
 		"exists": structs.Map(q),
 	}
 }
@@ -49,7 +49,7 @@ func IDs(vals ...string) *IDsQuery {
 
 // Map returns a map representation of the query, thus implementing the
 // Mappable interface.
-func (q *IDsQuery) Map() map[string]interface{} {
+func (q *IDsQuery) Map() map[string]any {
 	return structs.Map(q)
 }
 
@@ -87,9 +87,9 @@ func (q *PrefixQuery) Rewrite(s string) *PrefixQuery {
 
 // Map returns a map representation of the query, thus implementing the
 // Mappable interface.
-func (q *PrefixQuery) Map() map[string]interface{} {
-	return map[string]interface{}{
-		"prefix": map[string]interface{}{
+func (q *PrefixQuery) Map() map[string]any {
+	return map[string]any{
+		"prefix": map[string]any{
 			q.field: structs.Map(q.params),
 		},
 	}
@@ -105,10 +105,10 @@ type RangeQuery struct {
 }
 
 type rangeQueryParams struct {
-	Gt       interface{}   `structs:"gt,omitempty"`
-	Gte      interface{}   `structs:"gte,omitempty"`
-	Lt       interface{}   `structs:"lt,omitempty"`
-	Lte      interface{}   `structs:"lte,omitempty"`
+	Gt       any           `structs:"gt,omitempty"`
+	Gte      any           `structs:"gte,omitempty"`
+	Lt       any           `structs:"lt,omitempty"`
+	Lte      any           `structs:"lte,omitempty"`
 	Format   string        `structs:"format,omitempty"`
 	Relation RangeRelation `structs:"relation,string,omitempty"`
 	TimeZone string        `structs:"time_zone,omitempty"`
@@ -121,27 +121,27 @@ func Range(field string) *RangeQuery {
 }
 
 // Gt sets that the value of field must be greater than the provided value
-func (a *RangeQuery) Gt(val interface{}) *RangeQuery {
+func (a *RangeQuery) Gt(val any) *RangeQuery {
 	a.params.Gt = val
 	return a
 }
 
 // Gte sets that the value of field must be greater than or equal to the provided
 // value
-func (a *RangeQuery) Gte(val interface{}) *RangeQuery {
+func (a *RangeQuery) Gte(val any) *RangeQuery {
 	a.params.Gte = val
 	return a
 }
 
 // Lt sets that the value of field must be lower than the provided value
-func (a *RangeQuery) Lt(val interface{}) *RangeQuery {
+func (a *RangeQuery) Lt(val any) *RangeQuery {
 	a.params.Lt = val
 	return a
 }
 
 // Lte sets that the value of field must be lower than or equal to the provided
 // value
-func (a *RangeQuery) Lte(val interface{}) *RangeQuery {
+func (a *RangeQuery) Lte(val any) *RangeQuery {
 	a.params.Lte = val
 	return a
 }
@@ -172,9 +172,9 @@ func (a *RangeQuery) Boost(b float32) *RangeQuery {
 
 // Map returns a map representation of the query, thus implementing the
 // Mappable interface.
-func (a *RangeQuery) Map() map[string]interface{} {
-	return map[string]interface{}{
-		"range": map[string]interface{}{
+func (a *RangeQuery) Map() map[string]any {
+	return map[string]any{
+		"range": map[string]any{
 			a.field: structs.Map(a.params),
 		},
 	}
@@ -270,15 +270,15 @@ func (q *RegexpQuery) Rewrite(r string) *RegexpQuery {
 
 // Map returns a map representation of the query, thus implementing the
 // Mappable interface.
-func (q *RegexpQuery) Map() map[string]interface{} {
+func (q *RegexpQuery) Map() map[string]any {
 	var qType string
 	if q.wildcard {
 		qType = "wildcard"
 	} else {
 		qType = "regexp"
 	}
-	return map[string]interface{}{
-		qType: map[string]interface{}{
+	return map[string]any{
+		qType: map[string]any{
 			q.field: structs.Map(q.params),
 		},
 	}
@@ -370,9 +370,9 @@ func (q *FuzzyQuery) Rewrite(s string) *FuzzyQuery {
 
 // Map returns a map representation of the query, thus implementing the
 // Mappable interface.
-func (q *FuzzyQuery) Map() map[string]interface{} {
-	return map[string]interface{}{
-		"fuzzy": map[string]interface{}{
+func (q *FuzzyQuery) Map() map[string]any {
+	return map[string]any{
+		"fuzzy": map[string]any{
 			q.field: structs.Map(q.params),
 		},
 	}
@@ -388,15 +388,15 @@ type TermQuery struct {
 }
 
 type termQueryParams struct {
-	Value           interface{} `structs:"value"`
-	Boost           float32     `structs:"boost,omitempty"`
-	CaseInsensitive bool        `structs:"case_insensitive,omitempty"`
-	Name            string      `structs:"_name,omitempty"`
+	Value           any     `structs:"value"`
+	Boost           float32 `structs:"boost,omitempty"`
+	CaseInsensitive bool    `structs:"case_insensitive,omitempty"`
+	Name            string  `structs:"_name,omitempty"`
 }
 
 // Term creates a new query of type "term" on the provided field and using the
 // provide value
-func Term(field string, value interface{}) *TermQuery {
+func Term(field string, value any) *TermQuery {
 	return &TermQuery{
 		field: field,
 		params: termQueryParams{
@@ -406,7 +406,7 @@ func Term(field string, value interface{}) *TermQuery {
 }
 
 // Value sets the term value for the query.
-func (q *TermQuery) Value(val interface{}) *TermQuery {
+func (q *TermQuery) Value(val any) *TermQuery {
 	q.params.Value = val
 	return q
 }
@@ -432,9 +432,9 @@ func (q *TermQuery) CaseInsensitive(c bool) *TermQuery {
 
 // Map returns a map representation of the query, thus implementing the
 // Mappable interface.
-func (q *TermQuery) Map() map[string]interface{} {
-	return map[string]interface{}{
-		"term": map[string]interface{}{
+func (q *TermQuery) Map() map[string]any {
+	return map[string]any{
+		"term": map[string]any{
 			q.field: structs.Map(q.params),
 		},
 	}
@@ -446,13 +446,13 @@ func (q *TermQuery) Map() map[string]interface{} {
 // https://opensearch.org/docs/latest/query-dsl/term/terms/
 type TermsQuery struct {
 	field  string
-	values []interface{}
+	values []any
 	boost  float32
 }
 
 // Terms creates a new query of type "terms" on the provided field, and
 // optionally with the provided term values.
-func Terms(field string, values ...interface{}) *TermsQuery {
+func Terms(field string, values ...any) *TermsQuery {
 	return &TermsQuery{
 		field:  field,
 		values: values,
@@ -460,7 +460,7 @@ func Terms(field string, values ...interface{}) *TermsQuery {
 }
 
 // Values sets the term values for the query.
-func (q *TermsQuery) Values(values ...interface{}) *TermsQuery {
+func (q *TermsQuery) Values(values ...any) *TermsQuery {
 	q.values = values
 	return q
 }
@@ -473,13 +473,13 @@ func (q *TermsQuery) Boost(b float32) *TermsQuery {
 
 // Map returns a map representation of the query, thus implementing the
 // Mappable interface.
-func (q TermsQuery) Map() map[string]interface{} {
-	innerMap := map[string]interface{}{q.field: q.values}
+func (q TermsQuery) Map() map[string]any {
+	innerMap := map[string]any{q.field: q.values}
 	if q.boost > 0 {
 		innerMap["boost"] = q.boost
 	}
 
-	return map[string]interface{}{"terms": innerMap}
+	return map[string]any{"terms": innerMap}
 }
 
 //----------------------------------------------------------------------------//
@@ -530,9 +530,9 @@ func (q *TermsSetQuery) MinimumShouldMatchScript(script string) *TermsSetQuery {
 
 // Map returns a map representation of the query, thus implementing the
 // Mappable interface.
-func (q TermsSetQuery) Map() map[string]interface{} {
-	return map[string]interface{}{
-		"terms_set": map[string]interface{}{
+func (q TermsSetQuery) Map() map[string]any {
+	return map[string]any{
+		"terms_set": map[string]any{
 			q.field: structs.Map(q.params),
 		},
 	}

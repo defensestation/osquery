@@ -12,21 +12,21 @@ import (
 )
 
 // CustomQueryMap represents an arbitrary query map for custom queries.
-type CustomQueryMap map[string]interface{}
+type CustomQueryMap map[string]any
 
 // CustomQuery generates a custom request of type "query" from an arbitrary map
 // provided by the user. It is useful for issuing a search request with a syntax
 // that is not yet supported by the library. CustomQuery values are versatile,
 // they can either be used as parameters for the library's Query function, or
 // standalone by invoking their Run method.
-func CustomQuery(m map[string]interface{}) *CustomQueryMap {
+func CustomQuery(m map[string]any) *CustomQueryMap {
 	q := CustomQueryMap(m)
 	return &q
 }
 
 // Map returns the custom query as a map[string]interface{}, thus implementing
 // the Mappable interface.
-func (m *CustomQueryMap) Map() map[string]interface{} {
+func (m *CustomQueryMap) Map() map[string]any {
 	return *m
 }
 
@@ -46,12 +46,12 @@ func (m *CustomQueryMap) Run(
 // CustomAggMap represents an arbitrary aggregation map for custom aggregations.
 type CustomAggMap struct {
 	name string
-	agg  map[string]interface{}
+	agg  map[string]any
 }
 
 // CustomAgg generates a custom aggregation from an arbitrary map provided by
 // the user.
-func CustomAgg(name string, m map[string]interface{}) *CustomAggMap {
+func CustomAgg(name string, m map[string]any) *CustomAggMap {
 	return &CustomAggMap{
 		name: name,
 		agg:  m,
@@ -65,6 +65,6 @@ func (agg *CustomAggMap) Name() string {
 
 // Map returns a map representation of the custom aggregation, thus implementing
 // the Mappable interface
-func (agg *CustomAggMap) Map() map[string]interface{} {
+func (agg *CustomAggMap) Map() map[string]any {
 	return agg.agg
 }

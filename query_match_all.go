@@ -20,7 +20,7 @@ type matchAllParams struct {
 
 // Map returns a map representation of the query, thus implementing the
 // Mappable interface.
-func (q *MatchAllQuery) Map() map[string]interface{} {
+func (q *MatchAllQuery) Map() map[string]any {
 	var mType string
 	switch q.all {
 	case true:
@@ -29,7 +29,7 @@ func (q *MatchAllQuery) Map() map[string]interface{} {
 		mType = "match_none"
 	}
 
-	return map[string]interface{}{
+	return map[string]any{
 		mType: structs.Map(q.params),
 	}
 }

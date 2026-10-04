@@ -36,13 +36,13 @@ func (agg *FilterAggregation) Aggs(aggs ...Aggregation) *FilterAggregation {
 	return agg
 }
 
-func (agg *FilterAggregation) Map() map[string]interface{} {
-	outerMap := map[string]interface{}{
+func (agg *FilterAggregation) Map() map[string]any {
+	outerMap := map[string]any{
 		"filter": agg.filter.Map(),
 	}
 
 	if len(agg.aggs) > 0 {
-		subAggs := make(map[string]map[string]interface{})
+		subAggs := make(map[string]map[string]any)
 		for _, sub := range agg.aggs {
 			subAggs[sub.Name()] = sub.Map()
 		}

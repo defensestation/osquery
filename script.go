@@ -1,6 +1,6 @@
 package osquery
 
-type ScriptParams map[string]interface{}
+type ScriptParams map[string]any
 
 type ScriptField struct {
 	name     string
@@ -38,8 +38,8 @@ func (f *ScriptField) Name() string {
 	return f.name
 }
 
-func (f *ScriptField) Map() map[string]interface{} {
-	result := make(map[string]interface{})
+func (f *ScriptField) Map() map[string]any {
+	result := make(map[string]any)
 	if f.Src != "" {
 		result["source"] = f.Src
 	}
@@ -52,7 +52,7 @@ func (f *ScriptField) Map() map[string]interface{} {
 	if f.Language != "" {
 		result["lang"] = f.Language
 	}
-	return map[string]interface{}{
+	return map[string]any{
 		"script": result,
 	}
 }

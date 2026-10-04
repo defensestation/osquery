@@ -41,7 +41,7 @@ type MatchQuery struct {
 
 // Map returns a map representation of the query, thus implementing the
 // Mappable interface.
-func (q *MatchQuery) Map() map[string]interface{} {
+func (q *MatchQuery) Map() map[string]any {
 	var mType string
 	switch q.mType {
 	case TypeMatch:
@@ -54,15 +54,15 @@ func (q *MatchQuery) Map() map[string]interface{} {
 		mType = "match_phrase_prefix"
 	}
 
-	return map[string]interface{}{
-		mType: map[string]interface{}{
+	return map[string]any{
+		mType: map[string]any{
 			q.field: structs.Map(q.params),
 		},
 	}
 }
 
 type matchParams struct {
-	Qry                 interface{}   `structs:"query"`
+	Qry                 any           `structs:"query"`
 	Anl                 string        `structs:"analyzer,omitempty"`
 	AutoGenerate        *bool         `structs:"auto_generate_synonyms_phrase_query,omitempty"`
 	Fuzz                string        `structs:"fuzziness,omitempty"`
@@ -81,33 +81,33 @@ type matchParams struct {
 // Match creates a new query of type "match" with the provided field name.
 // A comparison value can optionally be provided to quickly create a simple
 // query such as { "match": { "message": "this is a test" } }
-func Match(fieldName string, simpleQuery ...interface{}) *MatchQuery {
+func Match(fieldName string, simpleQuery ...any) *MatchQuery {
 	return newMatch(TypeMatch, fieldName, simpleQuery...)
 }
 
 // MatchBoolPrefix creates a new query of type "match_bool_prefix" with the
 // provided field name. A comparison value can optionally be provided to quickly
 // create a simple query such as { "match": { "message": "this is a test" } }
-func MatchBoolPrefix(fieldName string, simpleQuery ...interface{}) *MatchQuery {
+func MatchBoolPrefix(fieldName string, simpleQuery ...any) *MatchQuery {
 	return newMatch(TypeMatchBoolPrefix, fieldName, simpleQuery...)
 }
 
 // MatchPhrase creates a new query of type "match_phrase" with the
 // provided field name. A comparison value can optionally be provided to quickly
 // create a simple query such as { "match": { "message": "this is a test" } }
-func MatchPhrase(fieldName string, simpleQuery ...interface{}) *MatchQuery {
+func MatchPhrase(fieldName string, simpleQuery ...any) *MatchQuery {
 	return newMatch(TypeMatchPhrase, fieldName, simpleQuery...)
 }
 
 // MatchPhrasePrefix creates a new query of type "match_phrase_prefix" with the
 // provided field name. A comparison value can optionally be provided to quickly
 // create a simple query such as { "match": { "message": "this is a test" } }
-func MatchPhrasePrefix(fieldName string, simpleQuery ...interface{}) *MatchQuery {
+func MatchPhrasePrefix(fieldName string, simpleQuery ...any) *MatchQuery {
 	return newMatch(TypeMatchPhrasePrefix, fieldName, simpleQuery...)
 }
 
-func newMatch(mType matchType, fieldName string, simpleQuery ...interface{}) *MatchQuery {
-	var qry interface{}
+func newMatch(mType matchType, fieldName string, simpleQuery ...any) *MatchQuery {
+	var qry any
 	if len(simpleQuery) > 0 {
 		qry = simpleQuery[len(simpleQuery)-1]
 	}
@@ -123,7 +123,7 @@ func newMatch(mType matchType, fieldName string, simpleQuery ...interface{}) *Ma
 
 // Query sets the data to find in the query's field (it is the "query" component
 // of the query).
-func (q *MatchQuery) Query(data interface{}) *MatchQuery {
+func (q *MatchQuery) Query(data any) *MatchQuery {
 	q.params.Qry = data
 	return q
 }

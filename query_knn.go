@@ -10,9 +10,9 @@ type KNNQuery struct {
 	k                *int
 	maxDistance      *float64
 	minScore         *float64
-	filter           map[string]interface{}
-	methodParameters map[string]interface{}
-	rescore          interface{}
+	filter           map[string]any
+	methodParameters map[string]any
+	rescore          any
 	expandNestedDocs *bool
 }
 
@@ -43,19 +43,19 @@ func (q *KNNQuery) MinScore(s float64) *KNNQuery {
 }
 
 // Filter sets the filter parameter.
-func (q *KNNQuery) Filter(f map[string]interface{}) *KNNQuery {
+func (q *KNNQuery) Filter(f map[string]any) *KNNQuery {
 	q.filter = f
 	return q
 }
 
 // MethodParameters sets the method_parameters.
-func (q *KNNQuery) MethodParameters(params map[string]interface{}) *KNNQuery {
+func (q *KNNQuery) MethodParameters(params map[string]any) *KNNQuery {
 	q.methodParameters = params
 	return q
 }
 
 // Rescore sets the rescore parameter.
-func (q *KNNQuery) Rescore(rescore interface{}) *KNNQuery {
+func (q *KNNQuery) Rescore(rescore any) *KNNQuery {
 	q.rescore = rescore
 	return q
 }
@@ -68,18 +68,18 @@ func (q *KNNQuery) ExpandNestedDocs(expand bool) *KNNQuery {
 
 // Map returns a map representation of the query, thus implementing the
 // Mappable interface.
-func (q *KNNQuery) Map() map[string]interface{} {
-	return map[string]interface{}{
-		"knn": map[string]interface{}{
+func (q *KNNQuery) Map() map[string]any {
+	return map[string]any{
+		"knn": map[string]any{
 			q.field: structs.Map(struct {
-				Vector           []float64              `structs:"vector"`
-				K                *int                   `structs:"k,omitempty"`
-				MaxDistance      *float64               `structs:"max_distance,omitempty"`
-				MinScore         *float64               `structs:"min_score,omitempty"`
-				Filter           map[string]interface{} `structs:"filter,omitempty"`
-				MethodParameters map[string]interface{} `structs:"method_parameters,omitempty"`
-				Rescore          interface{}            `structs:"rescore,omitempty"`
-				ExpandNestedDocs *bool                  `structs:"expand_nested_docs,omitempty"`
+				Vector           []float64      `structs:"vector"`
+				K                *int           `structs:"k,omitempty"`
+				MaxDistance      *float64       `structs:"max_distance,omitempty"`
+				MinScore         *float64       `structs:"min_score,omitempty"`
+				Filter           map[string]any `structs:"filter,omitempty"`
+				MethodParameters map[string]any `structs:"method_parameters,omitempty"`
+				Rescore          any            `structs:"rescore,omitempty"`
+				ExpandNestedDocs *bool          `structs:"expand_nested_docs,omitempty"`
 			}{
 				Vector:           q.vector,
 				K:                q.k,

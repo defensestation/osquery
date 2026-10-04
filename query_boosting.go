@@ -40,9 +40,9 @@ func (q *BoostingQuery) NegativeBoost(b float32) *BoostingQuery {
 
 // Map returns a map representation of the boosting query, thus implementing
 // the Mappable interface.
-func (q *BoostingQuery) Map() map[string]interface{} {
-	return map[string]interface{}{
-		"boosting": map[string]interface{}{
+func (q *BoostingQuery) Map() map[string]any {
+	return map[string]any{
+		"boosting": map[string]any{
 			"positive":       q.Pos.Map(),
 			"negative":       q.Neg.Map(),
 			"negative_boost": q.NegBoost,

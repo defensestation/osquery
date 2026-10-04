@@ -9,6 +9,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"net/http"
 
 	opensearch "github.com/opensearch-project/opensearch-go/v4"
 	opensearchapi "github.com/opensearch-project/opensearch-go/v4/opensearchapi"
@@ -30,8 +31,8 @@ func Count(q Mappable) *CountRequest {
 
 // Map returns a map representation of the request, thus implementing the
 // Mappable interface.
-func (req *CountRequest) Map() map[string]interface{} {
-	return map[string]interface{}{
+func (req *CountRequest) Map() map[string]any {
+	return map[string]any{
 		"query": req.Query.Map(),
 	}
 }
@@ -64,7 +65,7 @@ func (req *CountRequest) Run(
 	var searchResp opensearchapi.SearchResp
 
 	// Execute the search request using the OpenSearch client's Do method
-	if _, err := client.Do(ctx, searchReq, &searchResp); err != nil {
+	if _, err := opensearch.Do(ctx, client, http.MethodPost, searchReq, &searchResp); err != nil {
 		return nil, fmt.Errorf("search request failed: %w", err)
 	}
 

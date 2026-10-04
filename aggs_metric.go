@@ -20,7 +20,7 @@ type BaseAggParams struct {
 	Field string `structs:"field"`
 	// Miss is a value to provide for documents that are missing a value for the
 	// field.
-	Miss interface{} `structs:"missing,omitempty"`
+	Miss any `structs:"missing,omitempty"`
 }
 
 func newBaseAgg(apiName, name, field string) *BaseAgg {
@@ -41,8 +41,8 @@ func (agg *BaseAgg) Name() string {
 
 // Map returns a map representation of the aggregation, implementing the
 // Mappable interface.
-func (agg *BaseAgg) Map() map[string]interface{} {
-	return map[string]interface{}{
+func (agg *BaseAgg) Map() map[string]any {
+	return map[string]any{
 		agg.apiName: structs.Map(agg.BaseAggParams),
 	}
 }
@@ -63,7 +63,7 @@ func Avg(name, field string) *AvgAgg {
 
 // Missing sets the value to provide for documents missing a value for the
 // selected field.
-func (agg *AvgAgg) Missing(val interface{}) *AvgAgg {
+func (agg *AvgAgg) Missing(val any) *AvgAgg {
 	agg.Miss = val
 	return agg
 }
@@ -98,7 +98,7 @@ func (agg *WeightedAvgAgg) Name() string {
 
 // Value sets the value field and optionally a value to use when records are
 // missing a value for the field.
-func (agg *WeightedAvgAgg) Value(field string, missing ...interface{}) *WeightedAvgAgg {
+func (agg *WeightedAvgAgg) Value(field string, missing ...any) *WeightedAvgAgg {
 	agg.Val = new(BaseAggParams)
 	agg.Val.Field = field
 	if len(missing) > 0 {
@@ -109,7 +109,7 @@ func (agg *WeightedAvgAgg) Value(field string, missing ...interface{}) *Weighted
 
 // Value sets the weight field and optionally a value to use when records are
 // missing a value for the field.
-func (agg *WeightedAvgAgg) Weight(field string, missing ...interface{}) *WeightedAvgAgg {
+func (agg *WeightedAvgAgg) Weight(field string, missing ...any) *WeightedAvgAgg {
 	agg.Weig = new(BaseAggParams)
 	agg.Weig.Field = field
 	if len(missing) > 0 {
@@ -120,8 +120,8 @@ func (agg *WeightedAvgAgg) Weight(field string, missing ...interface{}) *Weighte
 
 // Map returns a map representation of the aggregation, thus implementing the
 // Mappable interface.
-func (agg *WeightedAvgAgg) Map() map[string]interface{} {
-	return map[string]interface{}{
+func (agg *WeightedAvgAgg) Map() map[string]any {
+	return map[string]any{
 		agg.apiName: structs.Map(agg),
 	}
 }
@@ -147,7 +147,7 @@ func Cardinality(name, field string) *CardinalityAgg {
 
 // Missing sets the value to provide for records that are missing a value for
 // the field.
-func (agg *CardinalityAgg) Missing(val interface{}) *CardinalityAgg {
+func (agg *CardinalityAgg) Missing(val any) *CardinalityAgg {
 	agg.Miss = val
 	return agg
 }
@@ -160,8 +160,8 @@ func (agg *CardinalityAgg) PrecisionThreshold(val uint16) *CardinalityAgg {
 
 // Map returns a map representation of the aggregation, thus implementing the
 // Mappable interface
-func (agg *CardinalityAgg) Map() map[string]interface{} {
-	return map[string]interface{}{
+func (agg *CardinalityAgg) Map() map[string]any {
+	return map[string]any{
 		agg.apiName: structs.Map(agg),
 	}
 }
@@ -184,7 +184,7 @@ func Max(name, field string) *MaxAgg {
 
 // Missing sets the value to provide for records that are missing a value for
 // the field.
-func (agg *MaxAgg) Missing(val interface{}) *MaxAgg {
+func (agg *MaxAgg) Missing(val any) *MaxAgg {
 	agg.Miss = val
 	return agg
 }
@@ -207,7 +207,7 @@ func Min(name, field string) *MinAgg {
 
 // Missing sets the value to provide for records that are missing a value for
 // the field.
-func (agg *MinAgg) Missing(val interface{}) *MinAgg {
+func (agg *MinAgg) Missing(val any) *MinAgg {
 	agg.Miss = val
 	return agg
 }
@@ -230,7 +230,7 @@ func Sum(name, field string) *SumAgg {
 
 // Missing sets the value to provide for records that are missing a value for
 // the field.
-func (agg *SumAgg) Missing(val interface{}) *SumAgg {
+func (agg *SumAgg) Missing(val any) *SumAgg {
 	agg.Miss = val
 	return agg
 }
@@ -294,7 +294,7 @@ func (agg *PercentilesAgg) Percents(percents ...float32) *PercentilesAgg {
 
 // Missing sets the value to provide for records that are missing a value for
 // the field.
-func (agg *PercentilesAgg) Missing(val interface{}) *PercentilesAgg {
+func (agg *PercentilesAgg) Missing(val any) *PercentilesAgg {
 	agg.Miss = val
 	return agg
 }
@@ -320,8 +320,8 @@ func (agg *PercentilesAgg) NumHistogramDigits(val uint8) *PercentilesAgg {
 
 // Map returns a map representation of the aggregation, thus implementing the
 // Mappable interface.
-func (agg *PercentilesAgg) Map() map[string]interface{} {
-	return map[string]interface{}{
+func (agg *PercentilesAgg) Map() map[string]any {
+	return map[string]any{
 		agg.apiName: structs.Map(agg),
 	}
 }
@@ -343,7 +343,7 @@ func Stats(name, field string) *StatsAgg {
 }
 
 // Missing sets the value to provide for records missing a value for the field.
-func (agg *StatsAgg) Missing(val interface{}) *StatsAgg {
+func (agg *StatsAgg) Missing(val any) *StatsAgg {
 	agg.Miss = val
 	return agg
 }
@@ -369,7 +369,7 @@ func StringStats(name, field string) *StringStatsAgg {
 }
 
 // Missing sets the value to provide for records missing a value for the field.
-func (agg *StringStatsAgg) Missing(val interface{}) *StringStatsAgg {
+func (agg *StringStatsAgg) Missing(val any) *StringStatsAgg {
 	agg.Miss = val
 	return agg
 }
@@ -383,8 +383,8 @@ func (agg *StringStatsAgg) ShowDistribution(b bool) *StringStatsAgg {
 
 // Map returns a map representation of the aggregation, thus implementing the
 // Mappable interface.
-func (agg *StringStatsAgg) Map() map[string]interface{} {
-	return map[string]interface{}{
+func (agg *StringStatsAgg) Map() map[string]any {
+	return map[string]any{
 		agg.apiName: structs.Map(agg),
 	}
 }
@@ -397,7 +397,7 @@ type TopHitsAgg struct {
 	name   string
 	from   uint64
 	size   uint64
-	sort   []map[string]interface{}
+	sort   []map[string]any
 	source Source
 }
 
@@ -429,8 +429,8 @@ func (agg *TopHitsAgg) Size(size uint64) *TopHitsAgg {
 // Sort sets how the top matching hits should be sorted. By default the hits are
 // sorted by the score of the main query.
 func (agg *TopHitsAgg) Sort(name string, order Order) *TopHitsAgg {
-	agg.sort = append(agg.sort, map[string]interface{}{
-		name: map[string]interface{}{
+	agg.sort = append(agg.sort, map[string]any{
+		name: map[string]any{
 			"order": order,
 		},
 	})
@@ -446,8 +446,8 @@ func (agg *TopHitsAgg) SourceIncludes(keys ...string) *TopHitsAgg {
 
 // Map returns a map representation of the aggregation, thus implementing the
 // Mappable interface.
-func (agg *TopHitsAgg) Map() map[string]interface{} {
-	innerMap := make(map[string]interface{})
+func (agg *TopHitsAgg) Map() map[string]any {
+	innerMap := make(map[string]any)
 
 	if agg.from > 0 {
 		innerMap["from"] = agg.from
@@ -462,7 +462,7 @@ func (agg *TopHitsAgg) Map() map[string]interface{} {
 		innerMap["_source"] = agg.source.Map()
 	}
 
-	return map[string]interface{}{
+	return map[string]any{
 		"top_hits": innerMap,
 	}
 }

@@ -73,8 +73,8 @@ func (agg *TermsAggregation) Include(include ...string) *TermsAggregation {
 
 // Map returns a map representation of the aggregation, thus implementing the
 // Mappable interface.
-func (agg *TermsAggregation) Map() map[string]interface{} {
-	innerMap := map[string]interface{}{
+func (agg *TermsAggregation) Map() map[string]any {
+	innerMap := map[string]any{
 		"field": agg.field,
 	}
 
@@ -99,11 +99,11 @@ func (agg *TermsAggregation) Map() map[string]interface{} {
 		}
 	}
 
-	outerMap := map[string]interface{}{
+	outerMap := map[string]any{
 		"terms": innerMap,
 	}
 	if len(agg.aggs) > 0 {
-		subAggs := make(map[string]map[string]interface{})
+		subAggs := make(map[string]map[string]any)
 		for _, sub := range agg.aggs {
 			subAggs[sub.Name()] = sub.Map()
 		}

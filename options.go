@@ -10,12 +10,12 @@ import (
 type Options struct {
 	Indices []string
 	Header  http.Header
-	Params  interface{}
+	Params  any
 }
 
 // ApplyOptions applies additional options to the request if provided.
 // ApplyOptions applies additional options to the request if provided.
-func ApplyOptions(req interface{}, options *Options) error {
+func ApplyOptions(req any, options *Options) error {
 	if options == nil {
 		return nil
 	}

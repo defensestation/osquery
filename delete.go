@@ -9,6 +9,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"net/http"
 
 	opensearch "github.com/opensearch-project/opensearch-go/v4"
 	opensearchapi "github.com/opensearch-project/opensearch-go/v4/opensearchapi"
@@ -65,7 +66,7 @@ func (req *DeleteRequest) Run(
 	var deleteResp opensearchapi.DocumentDeleteByQueryResp
 
 	// Execute the delete request using the OpenSearch client's Do method
-	if _, err := client.Do(ctx, deleteReq, &deleteResp); err != nil {
+	if _, err := opensearch.Do(ctx, client, http.MethodPost, deleteReq, &deleteResp); err != nil {
 		return nil, fmt.Errorf("delete request failed: %w", err)
 	}
 

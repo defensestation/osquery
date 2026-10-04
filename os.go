@@ -111,7 +111,7 @@ package osquery
 // types provided by the package. It allows the library to easily transform the
 // different queries to "generic" maps that can be easily encoded to JSON.
 type Mappable interface {
-	Map() map[string]interface{}
+	Map() map[string]any
 }
 
 // Aggregation is an interface that each aggregation type must implement. It

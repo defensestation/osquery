@@ -13,8 +13,8 @@ type Source struct {
 }
 
 // Map returns a map representation of the Source object.
-func (source Source) Map() map[string]interface{} {
-	m := make(map[string]interface{})
+func (source Source) Map() map[string]any {
+	m := make(map[string]any)
 	if len(source.includes) > 0 {
 		m["includes"] = source.includes
 	}

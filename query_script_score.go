@@ -38,14 +38,14 @@ func (q *ScriptScoreQuery) MinScore(min float32) *ScriptScoreQuery {
 
 // Map returns a map representation of the query, thus implementing the
 // Mappable interface.
-func (q *ScriptScoreQuery) Map() map[string]interface{} {
-	script := q.script.Map()["script"].(map[string]interface{})
-	return map[string]interface{}{
+func (q *ScriptScoreQuery) Map() map[string]any {
+	script := q.script.Map()["script"].(map[string]any)
+	return map[string]any{
 		"script_score": structs.Map(struct {
-			Query    map[string]interface{} `structs:"query"`
-			Script   map[string]interface{} `structs:"script"`
-			Boost    float32                `structs:"boost,omitempty"`
-			MinScore float32                `structs:"min_score,omitempty"`
+			Query    map[string]any `structs:"query"`
+			Script   map[string]any `structs:"script"`
+			Boost    float32        `structs:"boost,omitempty"`
+			MinScore float32        `structs:"min_score,omitempty"`
 		}{q.query.Map(), script, q.boost, q.minScore}),
 	}
 }

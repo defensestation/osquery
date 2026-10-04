@@ -36,17 +36,17 @@ func (agg *NestedAggregation) Aggs(aggs ...Aggregation) *NestedAggregation {
 	return agg
 }
 
-func (agg *NestedAggregation) Map() map[string]interface{} {
-	innerMap := map[string]interface{}{
+func (agg *NestedAggregation) Map() map[string]any {
+	innerMap := map[string]any{
 		"path": agg.path,
 	}
 
-	outerMap := map[string]interface{}{
+	outerMap := map[string]any{
 		"nested": innerMap,
 	}
 
 	if len(agg.aggs) > 0 {
-		subAggs := make(map[string]map[string]interface{})
+		subAggs := make(map[string]map[string]any)
 		for _, sub := range agg.aggs {
 			subAggs[sub.Name()] = sub.Map()
 		}
